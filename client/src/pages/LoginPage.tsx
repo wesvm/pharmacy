@@ -5,9 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "@/api/auth/validations";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const { login } = useAuth()
+  const navigate = useNavigate()
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -25,7 +27,8 @@ export default function LoginPage() {
         return
       }
 
-      // form.reset()
+      navigate("/")
+      form.reset()
       toast.success('Bienvenido!')
     } catch (error) {
       toast.error('Something went wrong, please try again later.')
