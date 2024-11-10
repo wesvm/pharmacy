@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -26,4 +26,42 @@ model User {
   password  String
   roleId    Int
   role      Role    @relation(fields: [roleId], references: [id])
+}
+
+model Product {
+  id          BigInt    @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal
+  quantity    Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId  BigInt
+
+  suppliers   ProductSupplier[]
+}
+
+model Category {
+  id          BigInt    @id @default(autoincrement())
+  name        String
+  description String?
+
+  products    Product[]
+}
+
+model Supplier {
+  id          BigInt    @id @default(autoincrement())
+  name        String
+  contactInfo String?
+
+  products    ProductSupplier[]
+}
+
+model ProductSupplier {
+  product   Product @relation(fields: [productId], references: [id])
+  productId BigInt
+
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  supplierId BigInt
+
+  @@id([productId, supplierId])
 }
