@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 
 async function main() {
   const adminRole = await prisma.role.upsert({
-    where: { name: "Admin" },
+    where: { name: "admin" },
     update: {},
-    create: { name: "Admin" },
+    create: { name: "admin" },
   });
 
   const elon = await prisma.user.upsert({
