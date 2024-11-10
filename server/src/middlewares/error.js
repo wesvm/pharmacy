@@ -1,5 +1,15 @@
 export default (err, _req, res, _next) => {
-  if (err.status) return res.status(err.status).json({ message: err.message });
+  console.error("Error:", err);
 
-  return res.status(500).json({ message: "Error interno del servidor D:" });
+  if (err.code === "P2002") {
+    return res.status(400).json({ error: "Violación de restricción única" });
+  }
+  if (err.code === "P2025") {
+    return res.status(404).json({ error: "Registro no encontrado" });
+  }
+
+  res.status(500).json({
+    error: "Error interno del servidor",
+    message: err.message || "Ocurrió un error inesperado",
+  });
 };
