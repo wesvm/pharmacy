@@ -23,7 +23,7 @@ class RoleController {
 
     try {
       const role = await prisma.role.update({
-        where: { id: Number(id) },
+        where: { id: parseInt(id) },
         data: { name },
       });
       res.status(200).json({ message: "Rol actualizado correctamente.", role });
@@ -34,15 +34,15 @@ class RoleController {
   async delete(req, res, next) {
     const { id } = req.params;
 
-    if (Number(id) === 1) {
-      res
+    if (parseInt(id) === 1) {
+      return res
         .status(400)
         .json({ error: "No puedes eliminar el rol de administrador." });
     }
 
     try {
       await prisma.role.delete({
-        where: { id: Number(id) },
+        where: { id: parseInt(id) },
       });
       res.status(204).send({ message: "Rol eliminado correctamente." });
     } catch (error) {
