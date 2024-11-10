@@ -1,20 +1,20 @@
-import { StatusCodes } from "http-status-codes";
-import jwt from "../utils/jwt";
+import jwt from "../lib/jwt.js";
 
 export default (req, res, next) => {
-  const token = req.headers.authorization;
+  const token =
+    req.headers.authorization && req.headers.authorization.split(" ")[1];
 
-  if (!token)
-    return next({
-      status: StatusCodes.UNAUTHORIZED,
-      message: "Unauthorized",
-    });
+  if (!token) {
+    return res
+      .status(401)
+      .json({ error: "Acceso denegado: token no proporcionado" });
+  }
 
   try {
-    const data = jwt.verify(token);
-    res.locals.payload = data;
+    const decoded = jwt.verify(token);
+    req.user = decoded;
     return next();
   } catch {
-    return next({ status: StatusCodes.UNAUTHORIZED, message: "Unauthorized" });
+    return res.status(403).json({ error: "Token inválido o expirado" });
   }
 };
