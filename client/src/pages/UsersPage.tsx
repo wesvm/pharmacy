@@ -1,8 +1,8 @@
 import { getUsers } from "@/api/user/queries";
 import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { UsersTable } from "@/components/user/data-table";
-import { columns } from "@/components/user/data-table/columns";
+import { UsersTable } from "@/components/pages/user/data-table";
+import { columns } from "@/components/pages/user/data-table/columns";
 import { useQuery } from "@tanstack/react-query";
 
 export default function UsersPage() {
