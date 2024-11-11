@@ -5,7 +5,9 @@ import {
   Hospital,
   IdCard,
   LogOut,
-  Settings,
+  Package,
+  ShoppingBag,
+  ShoppingCart,
   Users
 } from "lucide-react"
 import {
@@ -34,15 +36,49 @@ const items = {
       title: 'Roles',
       url: '/roles',
       icon: IdCard
+    },
+  ],
+  'store': [
+    {
+      title: 'Almacén',
+      url: '#',
+      icon: Package,
+      subItems: [
+        {
+          title: 'Productos',
+          url: '/store/products',
+        },
+        {
+          title: 'Categorias',
+          url: '/store/categories',
+        },
+        {
+          title: 'Proveedores',
+          url: '/store/suppliers',
+        }
+      ]
+    },
+    {
+      title: 'Ventas',
+      url: '#',
+      icon: ShoppingCart,
+      subItems: [
+        {
+          title: 'Nueva venta',
+          url: '/sales/new',
+        },
+        {
+          title: 'Entregas',
+          url: '/sales/delivery',
+        },
+      ]
+    },
+    {
+      title: 'Compras',
+      url: '/purchases',
+      icon: ShoppingBag,
     }
   ],
-  'settings': [
-    {
-      title: 'Account',
-      url: '/',
-      icon: Settings
-    }
-  ]
 }
 
 export function AppSidebar() {
@@ -68,7 +104,7 @@ export function AppSidebar() {
           <NavMain items={items.main} />
         </SidebarGroup>
         <SidebarSeparator className="mx-0" />
-        <NavSecondary label="Settings" items={items.settings} />
+        <NavSecondary label="Tienda" items={items.store} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

@@ -26,6 +26,41 @@ export const router = createBrowserRouter([
       {
         path: 'roles',
         element: <RolesPage />
+      },
+      {
+        path: 'store',
+        children: [
+          {
+            path: 'products',
+            element: <div>all products</div>
+          },
+          {
+            path: 'categories',
+            element: <div>all categories</div>
+          },
+          {
+            path: 'suppliers',
+            element: <div>all suppliers</div>
+          }
+        ]
+      },
+      {
+        path: 'sales',
+        children: [
+          {
+            index: true,
+            path: 'new',
+            element: <div>sale product</div>
+          },
+          {
+            path: 'delivery',
+            element: <div>all deliveries</div>
+          }
+        ]
+      },
+      {
+        path: 'purchases',
+        element: <div>all purchases</div>
       }
     ]
   },
