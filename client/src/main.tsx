@@ -11,7 +11,14 @@ import './index.css'
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 root.render(
   <StrictMode>
