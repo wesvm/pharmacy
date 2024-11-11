@@ -1,19 +1,14 @@
-import { forwardRef } from "react"
 import { Button } from "./ui/button"
 import { LoaderCircle } from "lucide-react";
 
-interface Props extends React.ComponentProps<"button"> {
-  disabled: boolean;
+interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   label: string;
   loadLabel?: string;
 }
 
-export const LoaderButton = forwardRef<HTMLButtonElement, Props>((
-  { className, disabled, label, loadLabel = label, ...props },
-  ref
-) => {
+export const LoaderButton = ({ label, loadLabel = label, disabled, ...props }: Props) => {
   return (
-    <Button ref={ref} type="submit" className={`w-full ${className}`} disabled={disabled} {...props}>
+    <Button disabled={disabled} {...props}>
       {disabled && (
         <LoaderCircle
           className="size-4 animate-spin"
@@ -23,4 +18,4 @@ export const LoaderButton = forwardRef<HTMLButtonElement, Props>((
       {disabled ? loadLabel : label}
     </Button>
   )
-})
+}
