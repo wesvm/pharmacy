@@ -79,7 +79,11 @@ export function NavMain({
           </Collapsible>
         ) : (
           <SidebarMenuButton
-            isActive={item.url === '/' ? location.pathname === item.url : location.pathname.startsWith(item.url)}
+            key={item.title}
+            isActive={item.url === '/' ?
+              location.pathname === item.url :
+              location.pathname.startsWith(item.url)
+            }
             tooltip={item.title}
             asChild
           >
