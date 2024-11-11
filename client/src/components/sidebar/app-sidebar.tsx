@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useAuth } from "@/setup/auth-context"
 import {
   Hospital,
+  IdCard,
   LogOut,
   Settings,
   Users
@@ -29,6 +30,11 @@ const items = {
       url: '/users',
       icon: Users,
     },
+    {
+      title: 'Roles',
+      url: '/roles',
+      icon: IdCard
+    }
   ],
   'settings': [
     {

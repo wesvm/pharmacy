@@ -4,7 +4,7 @@ import {
   UpdateUserSchema,
   UserFormSchema
 } from "@/api/user/validations";
-import { getRoles } from "@/api/roles/queries";
+import { getRoles } from "@/api/role/queries";
 import { useQuery } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";

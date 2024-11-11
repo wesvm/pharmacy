@@ -11,48 +11,34 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getRoles } from '@/api/role/queries';
 import { createRowActionStore } from '@/store/row-action-store';
 import { DataTableToolbar } from '@/components/data-table/data-table-toolbar';
 import { DataTable } from '@/components/data-table/data-table';
-import { DeleteUserModal } from '@/components/pages/user/delete-modal';
-import { UpdateUserModal } from '@/components/pages/user/update-modal';
-import { CreateUserModal } from '@/components/pages/user/create-modal';
+import { UpdateRoleModal } from '@/components/pages/role/update-modal';
+import { DeleteRoleModal } from '@/components/pages/role/delete-modal';
+import { CreateRoleModal } from '@/components/pages/role/create-modal';
 
 interface UsersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const useUserRowActionStore = createRowActionStore<User>();
+export const useRoleRowActionStore = createRowActionStore<Role>();
 
-export function UsersTable<TData, TValue>({
+export function RolesTable<TData, TValue>({
   columns,
   data,
 }: UsersTableProps<TData, TValue>) {
-  const { data: roles } = useQuery({
-    queryKey: ['roles'],
-    queryFn: () => getRoles()
-  });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     [])
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { row, type, clearRowAction } = useUserRowActionStore();
-  const filterFields: DataTableFilterField<User>[] = [
+  const { row, type, clearRowAction } = useRoleRowActionStore();
+  const filterFields: DataTableFilterField<Role>[] = [
     {
       id: "name",
-      label: "Nombre",
-      placeholder: "Busca por nombres..",
-    },
-    {
-      id: "role",
       label: "Rol",
-      options: roles?.roles.map((role) => ({
-        label: role.name.toUpperCase(),
-        value: role.name,
-      }))
-    }
+      placeholder: "Busca por nombre..",
+    },
   ]
 
   const table = useReactTable({
@@ -76,18 +62,18 @@ export function UsersTable<TData, TValue>({
     <>
       <DataTable table={table}>
         <DataTableToolbar table={table} filterFields={filterFields}>
-          <CreateUserModal />
+          <CreateRoleModal />
         </DataTableToolbar>
       </DataTable>
-      <UpdateUserModal
+      <UpdateRoleModal
         open={type === 'update'}
         onOpenChange={clearRowAction}
-        user={row}
+        role={row}
       />
-      <DeleteUserModal
+      <DeleteRoleModal
         open={type === 'delete'}
         onOpenChange={clearRowAction}
-        user={row}
+        role={row}
       />
     </>
   );

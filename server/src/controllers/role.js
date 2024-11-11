@@ -44,7 +44,7 @@ class RoleController {
       await prisma.role.delete({
         where: { id: parseInt(id) },
       });
-      res.status(204).send({ message: "Rol eliminado correctamente." });
+      res.status(200).send({ message: "Rol eliminado correctamente." });
     } catch (error) {
       next(error);
     }
