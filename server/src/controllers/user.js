@@ -41,14 +41,14 @@ class UserController {
     }
   }
   async create(req, res, next) {
-    const { name, email, password, roleId } = req.body;
+    const { name, email, password, role } = req.body;
 
     try {
-      const role = await prisma.role.findUnique({
-        where: { id: roleId },
+      const existRole = await prisma.role.findUnique({
+        where: { name: role },
       });
 
-      if (!role) {
+      if (!existRole) {
         return res.status(404).json({
           error: "El rol seleccionado no existe.",
         });
@@ -69,7 +69,7 @@ class UserController {
           name,
           email,
           password: bcrypt.hashSync(password, 10),
-          role: { connect: { id: role.id } },
+          role: { connect: { id: existRole.id } },
         },
         include: { role: true },
       });
@@ -89,17 +89,25 @@ class UserController {
   }
   async update(req, res, next) {
     const { id } = req.params;
-    const { name, email, password, roleId } = req.body;
+    const { name, email, password, role } = req.body;
 
     try {
+      const updateData = {
+        name,
+        email,
+      };
+
+      if (password) {
+        updateData.password = bcrypt.hashSync(password, 10);
+      }
+
+      if (parseInt(id) !== 1) {
+        updateData.role = { connect: { name: role } };
+      }
+
       const user = await prisma.user.update({
         where: { id: parseInt(id) },
-        data: {
-          name,
-          email,
-          password: bcrypt.hashSync(password, 10),
-          role: { connect: { id: roleId } },
-        },
+        data: updateData,
         include: { role: true },
       });
 
