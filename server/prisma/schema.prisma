@@ -37,9 +37,10 @@ model Product {
   purchasePrice Decimal @db.Money
   stockQuantity Int
   categoryId    Int
+  supplierId    Int
 
-  category     Category          @relation(fields: [categoryId], references: [id])
-  suppliers    ProductSupplier[]
+  category     Category       @relation(fields: [categoryId], references: [id])
+  supplier     Supplier       @relation(fields: [supplierId], references: [id])
   purchaseItem PurchaseItem[]
   saleItem     SaleItem[]
 }
@@ -57,18 +58,8 @@ model Supplier {
   name        String
   contactInfo String?
 
-  products ProductSupplier[]
+  products Product[]
   purchase Purchase[]
-}
-
-model ProductSupplier {
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
-
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
-  supplierId Int
-
-  @@id([productId, supplierId])
 }
 
 model Purchase {

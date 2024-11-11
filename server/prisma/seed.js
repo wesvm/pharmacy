@@ -46,15 +46,15 @@ async function main() {
     });
   }
 
-  for (const product of products) {
-    await prisma.product.create({
-      data: product,
-    });
-  }
-
   for (const supplier of suppliers) {
     await prisma.supplier.create({
       data: supplier,
+    });
+  }
+
+  for (const product of products) {
+    await prisma.product.create({
+      data: product,
     });
   }
 
