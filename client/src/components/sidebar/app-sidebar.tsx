@@ -26,24 +26,14 @@ const items = {
   'main': [
     {
       title: 'Usuarios',
-      url: '#',
+      url: '/users',
       icon: Users,
-      subItems: [
-        {
-          title: 'Agregar usuario',
-          url: "#"
-        },
-        {
-          title: 'Listar usuarios',
-          url: "#"
-        }
-      ]
     },
   ],
   'settings': [
     {
       title: 'Account',
-      url: '#',
+      url: '/',
       icon: Settings
     }
   ]
