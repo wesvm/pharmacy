@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { createUser } from "@/api/user/actions";
 import { createUserSchema, CreateUserSchema } from "@/api/user/validations";
-import { UserForm } from "@/components/user/form";
+import { UserForm } from "@/components/pages/user/form";
 import {
   Dialog,
   DialogClose,

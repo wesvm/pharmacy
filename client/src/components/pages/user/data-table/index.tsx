@@ -11,14 +11,14 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
-import { createRowActionStore } from '@/store/row-action-store';
-import { DataTable } from '@/components/data-table/data-table';
-import { DeleteUserModal } from '@/components/user/delete-modal';
-import { UpdateUserModal } from '../update-modal';
-import { DataTableToolbar } from '@/components/data-table/data-table-toolbar';
 import { useQuery } from '@tanstack/react-query';
 import { getRoles } from '@/api/roles/queries';
-import { CreateUserModal } from '../create-modal';
+import { createRowActionStore } from '@/store/row-action-store';
+import { DataTableToolbar } from '@/components/data-table/data-table-toolbar';
+import { DataTable } from '@/components/data-table/data-table';
+import { DeleteUserModal } from '@/components/pages/user/delete-modal';
+import { UpdateUserModal } from '@/components/pages/user/update-modal';
+import { CreateUserModal } from '@/components/pages/user/create-modal';
 
 interface UsersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
