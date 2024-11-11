@@ -10,7 +10,7 @@ export const ProtectedRoute = ({ children }: PropsWithChildren) => {
     if (!isAuthenticated) {
       logout()
     }
-  }, [location.pathname])
+  }, [location.pathname, isAuthenticated])
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;

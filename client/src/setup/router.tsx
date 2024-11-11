@@ -4,6 +4,9 @@ import { ProtectedRoute } from "./protected-route";
 import Layout from "./layout";
 import UsersPage from "@/pages/UsersPage";
 import RolesPage from "@/pages/RolePage";
+import SuppliersPage from "@/pages/SuppliersPage";
+import CategoriesPage from "@/pages/CategoriesPage";
+import ProductsPage from "@/pages/ProductsPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +29,41 @@ export const router = createBrowserRouter([
       {
         path: 'roles',
         element: <RolesPage />
+      },
+      {
+        path: 'store',
+        children: [
+          {
+            path: 'products',
+            element: <ProductsPage />
+          },
+          {
+            path: 'categories',
+            element: <CategoriesPage />
+          },
+          {
+            path: 'suppliers',
+            element: <SuppliersPage />
+          }
+        ]
+      },
+      {
+        path: 'sales',
+        children: [
+          {
+            index: true,
+            path: 'new',
+            element: <div>sale product</div>
+          },
+          {
+            path: 'delivery',
+            element: <div>all deliveries</div>
+          }
+        ]
+      },
+      {
+        path: 'purchases',
+        element: <div>all purchases</div>
       }
     ]
   },

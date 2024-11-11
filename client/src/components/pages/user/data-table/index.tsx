@@ -1,43 +1,29 @@
 import {
   type ColumnDef,
-  ColumnFiltersState,
-  type SortingState,
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
 } from '@tanstack/react-table';
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getRoles } from '@/api/role/queries';
 import { createRowActionStore } from '@/store/row-action-store';
-import { DataTableToolbar } from '@/components/data-table/data-table-toolbar';
 import { DataTable } from '@/components/data-table/data-table';
 import { DeleteUserModal } from '@/components/pages/user/delete-modal';
 import { UpdateUserModal } from '@/components/pages/user/update-modal';
 import { CreateUserModal } from '@/components/pages/user/create-modal';
 
-interface UsersTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface Props {
+  columns: ColumnDef<User>[];
+  data: User[];
 }
 
 export const useUserRowActionStore = createRowActionStore<User>();
 
-export function UsersTable<TData, TValue>({
+export function UsersTable({
   columns,
   data,
-}: UsersTableProps<TData, TValue>) {
+}: Props) {
   const { data: roles } = useQuery({
     queryKey: ['roles'],
     queryFn: () => getRoles()
   });
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    [])
-  const [sorting, setSorting] = useState<SortingState>([]);
   const { row, type, clearRowAction } = useUserRowActionStore();
   const filterFields: DataTableFilterField<User>[] = [
     {
@@ -55,29 +41,10 @@ export function UsersTable<TData, TValue>({
     }
   ]
 
-  const table = useReactTable({
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-    state: {
-      columnFilters,
-      sorting
-    },
-  })
-
   return (
     <>
-      <DataTable table={table}>
-        <DataTableToolbar table={table} filterFields={filterFields}>
-          <CreateUserModal />
-        </DataTableToolbar>
+      <DataTable columns={columns} data={data} filterFields={filterFields}>
+        <CreateUserModal />
       </DataTable>
       <UpdateUserModal
         open={type === 'update'}

@@ -1,5 +1,16 @@
-import { flexRender, type Table as TanstackTable } from '@tanstack/react-table';
-
+import {
+  type ColumnDef,
+  ColumnFiltersState,
+  type SortingState,
+  flexRender,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import {
   Table,
   TableBody,
@@ -10,20 +21,48 @@ import {
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 import { DataTablePagination } from './data-table-pagination';
+import { useState } from 'react';
+import { DataTableToolbar } from './data-table-toolbar';
 
-interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
-  table: TanstackTable<TData>;
+interface DataTableProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  filterFields?: DataTableFilterField<TData>[]
 }
 
-export function DataTable<TData>({
-  table,
+export function DataTable<TData, TValue>({
+  data,
+  columns,
+  filterFields,
   children,
   className,
   ...props
-}: DataTableProps<TData>) {
+}: DataTableProps<TData, TValue>) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    [])
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    state: {
+      columnFilters,
+      sorting
+    },
+  })
+
   return (
     <div className={cn('w-full space-y-2 overflow-auto', className)} {...props}>
-      {children}
+      <DataTableToolbar table={table} filterFields={filterFields}>
+        {children}
+      </DataTableToolbar>
       <div className="rounded-md border">
         <Table>
           <TableHeader className="bg-muted">

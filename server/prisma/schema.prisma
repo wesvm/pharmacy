@@ -9,59 +9,109 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Role {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  users     User[]   
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String  @unique
-  password  String
-  roleId    Int
-  role      Role    @relation(fields: [roleId], references: [id])
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  roleId   Int
+
+  role Role @relation(fields: [roleId], references: [id])
 }
 
 model Product {
-  id          BigInt    @id @default(autoincrement())
-  name        String
-  description String?
-  price       Decimal
-  quantity    Int
-  category    Category  @relation(fields: [categoryId], references: [id])
-  categoryId  BigInt
+  id            Int     @id @default(autoincrement())
+  name          String
+  description   String?
+  salePrice     Decimal @db.Money
+  purchasePrice Decimal @db.Money
+  stockQuantity Int
+  categoryId    Int
+  supplierId    Int
 
-  suppliers   ProductSupplier[]
+  category     Category       @relation(fields: [categoryId], references: [id])
+  supplier     Supplier       @relation(fields: [supplierId], references: [id])
+  purchaseItem PurchaseItem[]
+  saleItem     SaleItem[]
 }
 
 model Category {
-  id          BigInt    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   description String?
 
-  products    Product[]
+  products Product[]
 }
 
 model Supplier {
-  id          BigInt    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   contactInfo String?
 
-  products    ProductSupplier[]
+  products Product[]
+  purchase Purchase[]
 }
 
-model ProductSupplier {
-  product   Product @relation(fields: [productId], references: [id])
-  productId BigInt
+model Purchase {
+  id           Int      @id @default(autoincrement())
+  purchaseDate DateTime @default(now())
+  total        Decimal  @db.Money
+  status       String
+  supplierId   Int
 
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
-  supplierId BigInt
+  supplier      Supplier       @relation(fields: [supplierId], references: [id])
+  purchaseItems PurchaseItem[]
+}
 
-  @@id([productId, supplierId])
+model PurchaseItem {
+  id         Int     @id @default(autoincrement())
+  quantity   Int
+  price      Decimal @db.Money
+  productId  Int
+  purchaseId Int
+
+  product  Product  @relation(fields: [productId], references: [id])
+  purchase Purchase @relation(fields: [purchaseId], references: [id])
+}
+
+model Sale {
+  id           Int        @id @default(autoincrement())
+  saleDate     DateTime   @default(now())
+  total        Decimal    @db.Money
+  status       String
+  saleItems    SaleItem[]
+  customerName String?
+  customerDNI  String?
+
+  delivery   Delivery? @relation(fields: [deliveryId], references: [id])
+  deliveryId Int?      @unique
+}
+
+model SaleItem {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  price     Decimal @db.Money
+  productId Int
+  saleId    Int
+
+  product Product @relation(fields: [productId], references: [id])
+  sale    Sale    @relation(fields: [saleId], references: [id])
+}
+
+model Delivery {
+  id           Int      @id @default(autoincrement())
+  deliveryDate DateTime
+  status       String
+
+  sale Sale?
 }
