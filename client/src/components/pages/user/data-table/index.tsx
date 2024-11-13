@@ -20,7 +20,7 @@ export function UsersTable({
   columns,
   data,
 }: Props) {
-  const { data: roles } = useQuery({
+  const { status: rolesStatus, data: roles } = useQuery({
     queryKey: ['roles'],
     queryFn: () => getRoles()
   });
@@ -34,10 +34,12 @@ export function UsersTable({
     {
       id: "role",
       label: "Rol",
-      options: roles?.roles.map((role) => ({
-        label: role.name.toUpperCase(),
-        value: role.name,
-      }))
+      status: rolesStatus,
+      options: rolesStatus === 'success'
+        ? roles.roles.map((role) => ({
+          label: role.name.toUpperCase(),
+          value: role.name,
+        })) : []
     }
   ]
 

@@ -21,6 +21,6 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <RowActions row={row.original} />,
+    cell: ({ row }) => row.original.id !== 1 ? <RowActions row={row.original} /> : null,
   },
 ]

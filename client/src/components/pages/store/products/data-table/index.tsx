@@ -15,12 +15,12 @@ export function ProductsTable({
   columns,
   data,
 }: Props) {
-  const { data: categories } = useQuery({
+  const { status: statusCategories, data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: () => getCategories()
   });
 
-  const { data: suppliers } = useQuery({
+  const { status: statusSuppliers, data: suppliers } = useQuery({
     queryKey: ['suppliers'],
     queryFn: () => getSuppliers()
   });
@@ -34,18 +34,22 @@ export function ProductsTable({
     {
       id: "category",
       label: "Categoria",
-      options: categories?.categories.map((category) => ({
-        label: category.name,
-        value: category.name,
-      }))
+      status: statusCategories,
+      options: statusCategories === 'success'
+        ? categories.categories.map((category) => ({
+          label: category.name,
+          value: category.name,
+        })) : []
     },
     {
       id: "supplier",
       label: "Proveedor",
-      options: suppliers?.suppliers.map((supplier) => ({
-        label: supplier.name,
-        value: supplier.name,
-      }))
+      status: statusSuppliers,
+      options: statusSuppliers === 'success'
+        ? suppliers.suppliers.map((supplier) => ({
+          label: supplier.name,
+          value: supplier.name,
+        })) : []
     }
   ]
 

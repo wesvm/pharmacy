@@ -1,7 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { RowActions } from "./row-actions"
 
-
 export const columns: ColumnDef<Role>[] = [
   {
     accessorKey: "id",
@@ -14,6 +13,6 @@ export const columns: ColumnDef<Role>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <RowActions row={row.original} />,
+    cell: ({ row }) => row.original.id !== 1 ? <RowActions row={row.original} /> : null,
   },
 ]
