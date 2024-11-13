@@ -5,7 +5,8 @@ type DataTableRowAction<TData> = {
 
 type DataTableFilterField<TData> = {
   id: StringKeyOf<TData>
-  label: string
+  label: string,
+  status?: "error" | "success" | "pending"
   placeholder?: string
   options?: Option[]
 }
