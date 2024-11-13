@@ -91,23 +91,32 @@ class UserController {
     const { id } = req.params;
     const { name, email, password, role } = req.body;
 
+    if (parseInt(id) === 1) {
+      return res.status(400).json({
+        error: "No se puede actualizar al administrador principal.",
+      });
+    }
+
     try {
       const updateData = {
         name,
-        email,
-      };
+        email
+      }
 
       if (password) {
         updateData.password = bcrypt.hashSync(password, 10);
       }
 
-      if (parseInt(id) !== 1) {
-        updateData.role = { connect: { name: role } };
-      }
+      const existRole = await prisma.role.findUniqueOrThrow({
+        where: { name: role },
+      });
 
       const user = await prisma.user.update({
         where: { id: parseInt(id) },
-        data: updateData,
+        data: {
+          ...updateData,
+          role: { connect: { id: existRole.id } }
+        },
         include: { role: true },
       });
 
@@ -130,7 +139,7 @@ class UserController {
     if (parseInt(id) === 1) {
       return res
         .status(403)
-        .json({ error: "No se puede eliminar al administrador principal" });
+        .json({ error: "No se puede eliminar al administrador principal." });
     }
 
     try {
