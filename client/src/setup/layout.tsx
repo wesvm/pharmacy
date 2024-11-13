@@ -15,7 +15,7 @@ const Layout = () => {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary px-4">
+        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary px-4 z-50">
           <SidebarToggle />
           <div className="flex flex-1 items-center justify-end space-x-2 sm:mx-8">
             <ModeToggle />
