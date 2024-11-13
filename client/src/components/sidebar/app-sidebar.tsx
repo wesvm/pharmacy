@@ -82,7 +82,7 @@ const items = {
 }
 
 export function AppSidebar() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const [open, setOpen] = useState(false)
 
   return (
@@ -100,10 +100,14 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <NavMain items={items.main} />
-        </SidebarGroup>
-        <SidebarSeparator className="mx-0" />
+        {user?.role === 'administrador' && (
+          <>
+            <SidebarGroup>
+              <NavMain items={items.main} />
+            </SidebarGroup>
+            <SidebarSeparator className="mx-0" />
+          </>
+        )}
         <NavSecondary label="Tienda" items={items.store} />
       </SidebarContent>
       <SidebarFooter>
