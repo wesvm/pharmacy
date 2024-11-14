@@ -8,15 +8,12 @@ import { UserForm } from "@/components/pages/user/form";
 import {
   Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 import { LoaderButton } from "@/components/loader-button";
 import { useEffect } from "react";
+import { Modal } from "@/components/modal";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   user: User | null;
@@ -66,33 +63,31 @@ export const UpdateUserModal = ({ user, ...props }: Props) => {
   }
 
   return (
-    <Dialog {...props}>
-      <DialogContent className="max-w-md" onInteractOutside={(e) => e.preventDefault()}>
-        <DialogHeader>
-          <DialogTitle>Actualizar usuario</DialogTitle>
-          <DialogDescription>
-            Actualiza los datos para el usuario.
-          </DialogDescription>
-        </DialogHeader>
-        <UserForm
-          form={form}
-          onSubmit={onSubmit}
-        >
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Cancelar
-              </Button>
-            </DialogClose>
-            <LoaderButton
-              label="Actualizar"
-              loadLabel="Actualizando.."
-              disabled={form.formState.isSubmitting}
-              type="submit"
-            />
-          </DialogFooter>
-        </UserForm>
-      </DialogContent>
-    </Dialog>
+    <Modal
+      title="Actualizar usuario"
+      description="Actualiza los datos para el usuario."
+      onInteractOutside={(e) => e.preventDefault()}
+      className="max-w-md"
+      {...props}
+    >
+      <UserForm
+        form={form}
+        onSubmit={onSubmit}
+      >
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Cancelar
+            </Button>
+          </DialogClose>
+          <LoaderButton
+            label="Actualizar"
+            loadLabel="Actualizando.."
+            disabled={form.formState.isSubmitting}
+            type="submit"
+          />
+        </DialogFooter>
+      </UserForm>
+    </Modal>
   )
 }

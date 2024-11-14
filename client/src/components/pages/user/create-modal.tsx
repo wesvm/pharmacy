@@ -7,17 +7,12 @@ import { createUser } from "@/api/user/actions";
 import { createUserSchema, CreateUserSchema } from "@/api/user/validations";
 import { UserForm } from "@/components/pages/user/form";
 import {
-  Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 import { LoaderButton } from "@/components/loader-button";
+import { Modal } from "@/components/modal";
 
 export const CreateUserModal = () => {
   const queryClient = useQueryClient()
@@ -52,36 +47,37 @@ export const CreateUserModal = () => {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>Agregar usuario</Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-md" onInteractOutside={(e) => e.preventDefault()}>
-        <DialogHeader>
-          <DialogTitle>Agregar usuario</DialogTitle>
-          <DialogDescription>
-            Ingresa los datos para el nuevo usuario.
-          </DialogDescription>
-        </DialogHeader>
-        <UserForm
-          form={form}
-          onSubmit={onSubmit}
-        >
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Cancelar
-              </Button>
-            </DialogClose>
-            <LoaderButton
-              label="Guardar"
-              loadLabel="Guardando.."
-              disabled={form.formState.isSubmitting}
-              type="submit"
-            />
-          </DialogFooter>
-        </UserForm>
-      </DialogContent>
-    </Dialog>
+    <Modal
+      title="Agregar usuario"
+      description="Ingresa los datos para el nuevo usuario."
+      triggerContent={
+        <Button>
+          Agregar usuario
+        </Button>
+      }
+      open={open}
+      onOpenChange={setOpen}
+      onInteractOutside={(e) => e.preventDefault()}
+      className="max-w-md"
+    >
+      <UserForm
+        form={form}
+        onSubmit={onSubmit}
+      >
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Cancelar
+            </Button>
+          </DialogClose>
+          <LoaderButton
+            label="Guardar"
+            loadLabel="Guardando.."
+            disabled={form.formState.isSubmitting}
+            type="submit"
+          />
+        </DialogFooter>
+      </UserForm>
+    </Modal>
   )
 }

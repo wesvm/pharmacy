@@ -5,14 +5,11 @@ import { deleteUser } from "@/api/user/actions";
 import {
   Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog"
 import { LoaderButton } from "@/components/loader-button"
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/modal";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   user: User | null;
@@ -44,29 +41,25 @@ export const DeleteUserModal = ({ user, ...props }: Props) => {
     }
   }
   return (
-    <Dialog {...props}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Estás seguro de eliminar a {user?.name}?</DialogTitle>
-          <DialogDescription>
-            Esta acción no se puede deshacer. Esto eliminará permanentemente al usuario.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">
-              Cancelar
-            </Button>
-          </DialogClose>
-          <LoaderButton
-            label="Eliminar"
-            loadLabel="Eliminando.."
-            disabled={loading}
-            variant="destructive"
-            onClick={() => onSubmit(user?.id)}
-          />
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <Modal
+      title={`Estás seguro de eliminar a ${user?.name}?`}
+      description="Esta acción no se puede deshacer. Esto eliminará permanentemente al usuario."
+      {...props}
+    >
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="outline">
+            Cancelar
+          </Button>
+        </DialogClose>
+        <LoaderButton
+          label="Eliminar"
+          loadLabel="Eliminando.."
+          disabled={loading}
+          variant="destructive"
+          onClick={() => onSubmit(user?.id)}
+        />
+      </DialogFooter>
+    </Modal>
   )
 }
