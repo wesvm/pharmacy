@@ -3,9 +3,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { createUser } from "@/api/user/actions";
-import { createUserSchema, CreateUserSchema } from "@/api/user/validations";
-import { UserForm } from "@/components/pages/user/form";
+import { createCategory } from "@/api/store/category/actions";
+import { categoryFormSchema, CategoryFormSchema } from "@/api/store/category/validations";
+import { CategoryForm } from "@/components/pages/store/categories/form";
 import {
   DialogClose,
   DialogFooter,
@@ -14,30 +14,27 @@ import { Button } from "@/components/ui/button";
 import { LoaderButton } from "@/components/loader-button";
 import { Modal } from "@/components/modal";
 
-export const CreateUserModal = () => {
+export const CreateCategoryModal = () => {
   const queryClient = useQueryClient()
   const [open, setOpen] = useState<boolean>(false);
-  const form = useForm<CreateUserSchema>({
-    resolver: zodResolver(createUserSchema),
+  const form = useForm<CategoryFormSchema>({
+    resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      role: ''
+      description: ''
     }
   })
 
-  const onSubmit = async (values: CreateUserSchema) => {
+  const onSubmit = async (values: CategoryFormSchema) => {
     try {
-      const { error, message } = await createUser(values)
+      const { error, message } = await createCategory(values)
 
       if (error) {
         toast.error(error)
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       form.reset()
       toast.success(message)
       setOpen(false)
@@ -48,11 +45,11 @@ export const CreateUserModal = () => {
 
   return (
     <Modal
-      title="Agregar usuario"
-      description="Ingresa los datos para el nuevo usuario."
+      title="Agregar categoria"
+      description="Ingresa los datos para la nueva categoria."
       triggerContent={
         <Button>
-          Agregar usuario
+          Agregar categoria
         </Button>
       }
       open={open}
@@ -60,7 +57,7 @@ export const CreateUserModal = () => {
       onInteractOutside={(e) => e.preventDefault()}
       className="max-w-md"
     >
-      <UserForm
+      <CategoryForm
         form={form}
         onSubmit={onSubmit}
       >
@@ -77,7 +74,7 @@ export const CreateUserModal = () => {
             type="submit"
           />
         </DialogFooter>
-      </UserForm>
+      </CategoryForm>
     </Modal>
   )
 }

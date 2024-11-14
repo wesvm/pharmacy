@@ -3,7 +3,7 @@ import {
 } from '@tanstack/react-table';
 import { DataTable } from '@/components/data-table/data-table';
 import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '@/api/store/categories/queries';
+import { getCategories } from '@/api/store/category/queries';
 import { getSuppliers } from '@/api/store/supplier/queries';
 
 interface Props {

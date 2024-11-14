@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/api/store/categories/queries";
+import { getCategories } from "@/api/store/category/queries";
 import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CategoriesTable } from "@/components/pages/store/categories/data-table";

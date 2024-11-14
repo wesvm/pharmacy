@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { deleteUser } from "@/api/user/actions";
+import { deleteCategory } from "@/api/store/category/actions";
 import {
   Dialog,
   DialogClose,
@@ -12,26 +12,26 @@ import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/modal";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  user: User | null;
+  category: Category | null;
 }
 
-export const DeleteUserModal = ({ user, ...props }: Props) => {
+export const DeleteCategoryModal = ({ category, ...props }: Props) => {
   const queryClient = useQueryClient()
   const [loading, setLoading] = useState<boolean>(false)
 
-  const onSubmit = async (userId?: number) => {
-    if (!userId) return;
+  const onSubmit = async (categoryId?: number) => {
+    if (!categoryId) return;
 
     try {
       setLoading(true)
-      const { error, message } = await deleteUser(userId)
+      const { error, message } = await deleteCategory(categoryId)
 
       if (error) {
         toast.error(error)
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success(message)
       props.onOpenChange?.(false)
     } catch (error) {
@@ -42,8 +42,8 @@ export const DeleteUserModal = ({ user, ...props }: Props) => {
   }
   return (
     <Modal
-      title={`Estás seguro de eliminar a ${user?.name}?`}
-      description="Esta acción no se puede deshacer. Esto eliminará permanentemente al usuario."
+      title={`Estás seguro de eliminar ${category?.name}?`}
+      description="Esta acción no se puede deshacer. Esto eliminará permanentemente la categoria."
       {...props}
     >
       <DialogFooter>
@@ -57,7 +57,7 @@ export const DeleteUserModal = ({ user, ...props }: Props) => {
           loadLabel="Eliminando.."
           disabled={loading}
           variant="destructive"
-          onClick={() => onSubmit(user?.id)}
+          onClick={() => onSubmit(category?.id)}
         />
       </DialogFooter>
     </Modal>

@@ -5,19 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { roleFormSchema, RoleFormSchema } from "@/api/role/validations";
 import {
-  Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 import { LoaderButton } from "@/components/loader-button";
 import { createRole } from "@/api/role/actions";
 import { RoleForm } from "./form";
+import { Modal } from "@/components/modal";
 
 export const CreateRoleModal = () => {
   const queryClient = useQueryClient()
@@ -48,36 +43,37 @@ export const CreateRoleModal = () => {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>Agregar rol</Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-md" onInteractOutside={(e) => e.preventDefault()}>
-        <DialogHeader>
-          <DialogTitle>Agregar rol</DialogTitle>
-          <DialogDescription>
-            Ingresa los datos para el nuevo rol.
-          </DialogDescription>
-        </DialogHeader>
-        <RoleForm
-          form={form}
-          onSubmit={onSubmit}
-        >
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Cancelar
-              </Button>
-            </DialogClose>
-            <LoaderButton
-              label="Guardar"
-              loadLabel="Guardando.."
-              disabled={form.formState.isSubmitting}
-              type="submit"
-            />
-          </DialogFooter>
-        </RoleForm>
-      </DialogContent>
-    </Dialog>
+    <Modal
+      title="Agregar rol"
+      description="Ingresa los datos para el nuevo rol."
+      triggerContent={
+        <Button>
+          Agregar rol
+        </Button>
+      }
+      className="max-w-md"
+      open={open}
+      onOpenChange={setOpen}
+      onInteractOutside={(e) => e.preventDefault()}
+    >
+      <RoleForm
+        form={form}
+        onSubmit={onSubmit}
+      >
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Cancelar
+            </Button>
+          </DialogClose>
+          <LoaderButton
+            label="Guardar"
+            loadLabel="Guardando.."
+            disabled={form.formState.isSubmitting}
+            type="submit"
+          />
+        </DialogFooter>
+      </RoleForm>
+    </Modal>
   )
 }

@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { updateUser } from "@/api/user/actions";
-import { updateUserSchema, UpdateUserSchema } from "@/api/user/validations";
-import { UserForm } from "@/components/pages/user/form";
+import { updateCategory } from "@/api/store/category/actions";
+import { categoryFormSchema, CategoryFormSchema } from "@/api/store/category/validations";
+import { CategoryForm } from "@/components/pages/store/categories/form";
 import {
   Dialog,
   DialogClose,
@@ -12,48 +13,41 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 import { LoaderButton } from "@/components/loader-button";
-import { useEffect } from "react";
 import { Modal } from "@/components/modal";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  user: User | null;
+  category: Category | null;
 }
 
-export const UpdateUserModal = ({ user, ...props }: Props) => {
+export const UpdateCategoryModal = ({ category, ...props }: Props) => {
   const queryClient = useQueryClient()
-  const form = useForm<UpdateUserSchema>({
-    resolver: zodResolver(updateUserSchema),
+  const form = useForm<CategoryFormSchema>({
+    resolver: zodResolver(categoryFormSchema),
     defaultValues: {
-      name: user?.name,
-      email: user?.email,
-      password: '',
-      confirmPassword: '',
-      role: user?.role
+      name: category?.name,
+      description: category?.description ?? ''
     }
   })
 
   useEffect(() => {
     form.reset({
-      name: user?.name,
-      email: user?.email,
-      password: '',
-      confirmPassword: '',
-      role: user?.role
+      name: category?.name,
+      description: category?.description ?? ''
     })
-  }, [user, form])
+  }, [category, form])
 
-  const onSubmit = async (values: UpdateUserSchema) => {
-    if (!user) return
+  const onSubmit = async (values: CategoryFormSchema) => {
+    if (!category) return
 
     try {
-      const { error, message } = await updateUser(user.id, values)
+      const { error, message } = await updateCategory(category.id, values)
 
       if (error) {
         toast.error(error)
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       form.reset()
       toast.success(message)
       props.onOpenChange?.(false)
@@ -64,13 +58,13 @@ export const UpdateUserModal = ({ user, ...props }: Props) => {
 
   return (
     <Modal
-      title="Actualizar usuario"
-      description="Actualiza los datos para el usuario."
+      title="Actualizar categoria"
+      description="Actualiza los datos para la categoria."
       onInteractOutside={(e) => e.preventDefault()}
       className="max-w-md"
       {...props}
     >
-      <UserForm
+      <CategoryForm
         form={form}
         onSubmit={onSubmit}
       >
@@ -87,7 +81,7 @@ export const UpdateUserModal = ({ user, ...props }: Props) => {
             type="submit"
           />
         </DialogFooter>
-      </UserForm>
+      </CategoryForm>
     </Modal>
   )
 }

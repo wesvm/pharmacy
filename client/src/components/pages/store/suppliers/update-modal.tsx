@@ -2,9 +2,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { updateUser } from "@/api/user/actions";
-import { updateUserSchema, UpdateUserSchema } from "@/api/user/validations";
-import { UserForm } from "@/components/pages/user/form";
+import { updateSupplier } from "@/api/store/supplier/actions";
+import { supplierFormSchema, SupplierFormSchema } from "@/api/store/supplier/validations";
+import { SupplierForm } from "@/components/pages/store/suppliers/form";
 import {
   Dialog,
   DialogClose,
@@ -16,44 +16,38 @@ import { useEffect } from "react";
 import { Modal } from "@/components/modal";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  user: User | null;
+  supplier: Supplier | null;
 }
 
-export const UpdateUserModal = ({ user, ...props }: Props) => {
+export const UpdateSupplierModal = ({ supplier, ...props }: Props) => {
   const queryClient = useQueryClient()
-  const form = useForm<UpdateUserSchema>({
-    resolver: zodResolver(updateUserSchema),
+  const form = useForm<SupplierFormSchema>({
+    resolver: zodResolver(supplierFormSchema),
     defaultValues: {
-      name: user?.name,
-      email: user?.email,
-      password: '',
-      confirmPassword: '',
-      role: user?.role
+      name: supplier?.name,
+      contactInfo: supplier?.contactInfo ?? '',
     }
   })
 
   useEffect(() => {
     form.reset({
-      name: user?.name,
-      email: user?.email,
-      password: '',
-      confirmPassword: '',
-      role: user?.role
+      name: supplier?.name,
+      contactInfo: supplier?.contactInfo ?? '',
     })
-  }, [user, form])
+  }, [supplier, form])
 
-  const onSubmit = async (values: UpdateUserSchema) => {
-    if (!user) return
+  const onSubmit = async (values: SupplierFormSchema) => {
+    if (!supplier) return
 
     try {
-      const { error, message } = await updateUser(user.id, values)
+      const { error, message } = await updateSupplier(supplier.id, values)
 
       if (error) {
         toast.error(error)
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] });
       form.reset()
       toast.success(message)
       props.onOpenChange?.(false)
@@ -64,13 +58,13 @@ export const UpdateUserModal = ({ user, ...props }: Props) => {
 
   return (
     <Modal
-      title="Actualizar usuario"
-      description="Actualiza los datos para el usuario."
+      title="Actualizar proveedor"
+      description="Actualiza los datos para el proveedor."
       onInteractOutside={(e) => e.preventDefault()}
       className="max-w-md"
       {...props}
     >
-      <UserForm
+      <SupplierForm
         form={form}
         onSubmit={onSubmit}
       >
@@ -87,7 +81,7 @@ export const UpdateUserModal = ({ user, ...props }: Props) => {
             type="submit"
           />
         </DialogFooter>
-      </UserForm>
+      </SupplierForm>
     </Modal>
   )
 }
