@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table"
+import { RowActions } from "./row-actions"
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -12,5 +13,9 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: "description",
     header: "Descripción",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <RowActions row={row.original} />,
   },
 ]
