@@ -1,12 +1,14 @@
 import { Router } from "express";
 import categoryController from "../controllers/category.js";
+import validation from "../middlewares/validation.js";
+import { createCategorySchema, updateCategorySchema } from "../schemas/category.js";
 
 const router = Router();
 
 router.get("/", categoryController.getAll);
-router.post("/", categoryController.create);
-router.get("/:id", categoryController.getById);
-router.put("/:id", categoryController.update);
-router.delete("/:id", categoryController.delete);
+router.post("/", validation(createCategorySchema), categoryController.create);
+router.get("/:id", validation(updateCategorySchema), categoryController.getById);
+router.put("/:id", validation(updateCategorySchema), categoryController.update);
+router.delete("/:id", validation(updateCategorySchema), categoryController.delete);
 
 export default router;

@@ -1,6 +1,6 @@
 import * as React from "react"
 import type { Table } from "@tanstack/react-table"
-import { X } from "lucide-react"
+import { LoaderCircle, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -85,14 +85,29 @@ export function DataTableToolbar<TData>({
         {filterableColumns.length > 0 &&
           filterableColumns.map(
             (column) =>
-              table.getColumn(column.id ? String(column.id) : "") && (
-                <DataTableFacetedFilter
+              column.status === "pending" ? (
+                <Button
                   key={String(column.id)}
-                  column={table.getColumn(column.id ? String(column.id) : "")}
-                  title={column.label}
-                  options={column.options ?? []}
-                />
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-24 border-dashed"
+                >
+                  <LoaderCircle
+                    className="size-4 animate-spin"
+                    aria-hidden="true"
+                  />
+                </Button>
+              ) : (
+                table.getColumn(column.id ? String(column.id) : "") && (
+                  <DataTableFacetedFilter
+                    key={String(column.id)}
+                    column={table.getColumn(column.id ? String(column.id) : "")}
+                    title={column.label}
+                    options={column.options ?? []}
+                  />
+                )
               )
+
           )}
         {isFiltered && (
           <Button

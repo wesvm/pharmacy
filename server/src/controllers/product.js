@@ -1,164 +1,159 @@
 import prisma from "../lib/prisma.js";
 
 class ProductController {
-  // Obtener todos los productos
-  async getAll(_req, res, next) {
-    try {
-      const query = await prisma.product.findMany({
-        include: {
-          category: true,
-          suppliers: true,
-        },
-      });
+  async getAll(_req, res) {
+    const query = await prisma.product.findMany({
+      where: { isArchived: false },
+      include: { category: true, supplier: true },
+    });
 
-      const products = query.map((product) => ({
-        id: product.id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        quantity: product.quantity,
-        category: product.category.name,
-        suppliers: product.suppliers.map((supplier) => supplier.supplierId),
-      }));
-
-      res.status(200).json({ products });
-    } catch (error) {
-      next(error);
-    }
+    const products = query.map((product) => format(product));
+    res.status(200).json({ products });
   }
-
-  // Obtener un producto por ID
   async getById(req, res, next) {
     const { id } = req.params;
     try {
       const product = await prisma.product.findUnique({
-        where: { id: BigInt(id) },
-        include: { category: true, suppliers: true },
+        where: { id: parseInt(id) },
+        include: { category: true, supplier: true },
       });
 
       if (!product) {
         return res.status(404).json({ error: "Producto no encontrado." });
       }
 
-      res.status(200).json({
-        product: {
-          id: product.id,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          quantity: product.quantity,
-          category: product.category.name,
-          suppliers: product.suppliers.map((supplier) => supplier.supplierId),
-        },
-      });
+      const formated = format(product);
+      res.status(200).json({ product: formated });
     } catch (error) {
       next(error);
     }
   }
-
-  // Crear un nuevo producto
   async create(req, res, next) {
-    const { name, description, price, quantity, categoryId, supplierIds } = req.body;
-
-    // Validaciones
-    if (!name || name.trim() === "") {
-      return res.status(400).json({ error: "El nombre del producto es obligatorio." });
-    }
-    if (!categoryId) {
-      return res.status(400).json({ error: "La categoría es obligatoria." });
-    }
-    if (quantity < 0) {
-      return res.status(400).json({ error: "La cantidad no puede ser negativa." });
-    }
-    if (price <= 0) {
-      return res.status(400).json({ error: "El precio debe ser mayor a 0." });
-    }
+    const {
+      name,
+      description,
+      salePrice,
+      purchasePrice,
+      stockQuantity,
+      categoryId,
+      supplierId,
+    } = req.body;
 
     try {
-      // Verificar si la categoría existe
-      const categoryExist = await prisma.category.findUnique({
-        where: { id: BigInt(categoryId) },
+      const category = await prisma.category.findUnique({
+        where: { id: parseInt(categoryId) },
       });
 
-      if (!categoryExist) {
-        return res.status(404).json({ error: "La categoría no existe." });
+      if (!category) {
+        return res.status(404).json({
+          error: "La categoria seleccionada no existe.",
+        });
       }
 
-      // Crear el producto
+      const supplier = await prisma.supplier.findUnique({
+        where: { id: parseInt(supplierId) },
+      });
+
+      if (!supplier) {
+        return res.status(404).json({
+          error: "El proveedor seleccionado no existe.",
+        });
+      }
+
       const product = await prisma.product.create({
         data: {
           name,
           description,
-          price: parseFloat(price),
-          quantity: parseInt(quantity),
-          category: { connect: { id: BigInt(categoryId) } },
+          salePrice,
+          purchasePrice,
+          stockQuantity,
+          category: { connect: { id: category.id } },
+          supplier: { connect: { id: supplier.id } },
         },
+        include: { category: true, supplier: true },
       });
 
-      // Asociar proveedores si existen
-      if (supplierIds && supplierIds.length > 0) {
-        for (let supplierId of supplierIds) {
-          await prisma.productSupplier.create({
-            data: {
-              productId: product.id,
-              supplierId: BigInt(supplierId),
-            },
-          });
-        }
-      }
-
-      res.status(201).json({ message: "Producto creado exitosamente.", product });
+      const formated = format(product);
+      res
+        .status(201)
+        .json({ message: "Producto creado correctamente.", product: formated });
     } catch (error) {
       next(error);
     }
   }
-
-  // Actualizar un producto
   async update(req, res, next) {
     const { id } = req.params;
-    const { name, description, price, quantity, categoryId } = req.body;
+    const {
+      name,
+      description,
+      salePrice,
+      purchasePrice,
+      stockQuantity,
+      categoryId,
+      supplierId,
+    } = req.body;
 
     try {
+      const category = await prisma.category.findUniqueOrThrow({
+        where: { id: parseInt(categoryId) },
+      });
+
+      const supplier = await prisma.supplier.findUniqueOrThrow({
+        where: { id: parseInt(supplierId) },
+      });
+
       const product = await prisma.product.update({
-        where: { id: BigInt(id) },
+        where: { id: parseInt(id) },
         data: {
           name,
           description,
-          price: parseFloat(price),
-          quantity: parseInt(quantity),
-          categoryId: BigInt(categoryId),
+          salePrice,
+          purchasePrice,
+          stockQuantity,
+          category: { connect: { id: category.id } },
+          supplier: { connect: { id: supplier.id } },
         },
-        include: { category: true },
       });
 
-      res.status(200).json({ message: "Producto actualizado correctamente.", product });
+      const formated = format(product);
+      res.status(200).json({
+        message: "Producto actualizado correctamente.",
+        product: formated,
+      });
     } catch (error) {
       next(error);
     }
   }
-
-  // Eliminar un producto
   async delete(req, res, next) {
     const { id } = req.params;
-
     try {
-      const product = await prisma.product.findUnique({
-        where: { id: BigInt(id) },
+      await prisma.product.update({
+        where: { id: parseInt(id) },
+        data: {
+          isArchived: true,
+          stockQuantity: 0,
+        },
       });
-
-      if (!product) {
-        return res.status(404).json({ error: "Producto no encontrado." });
-      }
-
-      await prisma.product.delete({
-        where: { id: BigInt(id) },
-      });
-
-      res.status(200).json({ message: "Producto eliminado correctamente." });
+      res.status(200).json({ message: "Producto archivado correctamente." });
     } catch (error) {
       next(error);
     }
   }
 }
+
+const format = (product) => {
+  return {
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    salePrice: product.salePrice,
+    purchasePrice: product.purchasePrice,
+    stockQuantity: product.stockQuantity,
+    categoryId: product.categoryId,
+    supplierId: product.supplierId,
+    category: product.category?.name,
+    supplier: product.supplier?.name,
+  };
+};
 
 export default new ProductController();

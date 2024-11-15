@@ -5,14 +5,11 @@ import { toast } from "sonner";
 import {
   Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog"
 import { LoaderButton } from "@/components/loader-button"
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/modal";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   role: Role | null;
@@ -44,29 +41,25 @@ export const DeleteRoleModal = ({ role, ...props }: Props) => {
     }
   }
   return (
-    <Dialog {...props}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Estás seguro de eliminar el rol de {role?.name.toUpperCase()}?</DialogTitle>
-          <DialogDescription>
-            Esta acción no se puede deshacer. Esto eliminará permanentemente el rol.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">
-              Cancelar
-            </Button>
-          </DialogClose>
-          <LoaderButton
-            label="Eliminar"
-            loadLabel="Eliminando.."
-            disabled={loading}
-            variant="destructive"
-            onClick={() => onSubmit(role?.id)}
-          />
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <Modal
+      title={`Estás seguro de eliminar el rol de ${role?.name.toUpperCase()}?`}
+      description="Esta acción no se puede deshacer. Esto eliminará permanentemente el rol."
+      {...props}
+    >
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="outline">
+            Cancelar
+          </Button>
+        </DialogClose>
+        <LoaderButton
+          label="Eliminar"
+          loadLabel="Eliminando.."
+          disabled={loading}
+          variant="destructive"
+          onClick={() => onSubmit(role?.id)}
+        />
+      </DialogFooter>
+    </Modal>
   )
 }

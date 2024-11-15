@@ -4,12 +4,17 @@ import roles from "../middlewares/role.js";
 import authController from "../controllers/auth.js";
 import roleRoutes from "./role.js";
 import userRoutes from "./user.js";
-import categoryRoutes from "./category.js"
+import categoryRoutes from "./category.js";
+import supplierRoutes from "./supplier.js";
+import productRoutes from "./product.js";
+
 const router = Router();
 
 router.post("/auth", authController.login);
-router.use("/roles", auth, roles("admin"), roleRoutes);
-router.use("/users", auth, roles("admin"), userRoutes);
-router.use("/categories",auth,categoryRoutes);
+router.use("/roles", auth, roles("administrador"), roleRoutes);
+router.use("/users", auth, roles("administrador"), userRoutes);
+router.use("/categories", auth, categoryRoutes);
+router.use("/suppliers", auth, supplierRoutes);
+router.use("/products", auth, productRoutes);
 
 export default router;

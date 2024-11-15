@@ -21,6 +21,12 @@ class RoleController {
     const { id } = req.params;
     const { name } = req.body;
 
+    if (parseInt(id) === 1) {
+      return res
+        .status(400)
+        .json({ error: "No puedes actualizar el rol de administrador." });
+    }
+
     try {
       const role = await prisma.role.update({
         where: { id: parseInt(id) },
