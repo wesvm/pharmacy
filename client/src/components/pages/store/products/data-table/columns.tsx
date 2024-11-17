@@ -1,5 +1,6 @@
 import { formatter } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table"
+import { RowActions } from "./row-actions";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -36,4 +37,8 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "supplier",
     header: "Proveedor",
   },
+  {
+    id: "actions",
+    cell: ({ row }) => <RowActions row={row.original} />,
+  }
 ];

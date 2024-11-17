@@ -5,7 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const apiRequest = async <T>(
   endpoint: string,
   options: RequestInit = {},
-  isAuthRoute: boolean = false
+  isAuthRoute: boolean = true
 ): Promise<T> => {
   const url = `${API_BASE_URL}${endpoint}`;
   const token = isAuthRoute ? tokenService.getToken() : null;

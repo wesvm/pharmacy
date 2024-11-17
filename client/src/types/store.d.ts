@@ -21,4 +21,5 @@ type Product = {
   supplierId: number;
   category: string;
   supplier: string;
+  isArchived: boolean;
 };
