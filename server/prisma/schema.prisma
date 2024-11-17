@@ -40,6 +40,7 @@ model Product {
   stockQuantity Int
   categoryId    Int
   supplierId    Int
+  imageUrl      String?
   isArchived    Boolean @default(false)
 
   category     Category       @relation(fields: [categoryId], references: [id])
