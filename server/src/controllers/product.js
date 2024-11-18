@@ -1,9 +1,36 @@
 import prisma from "../lib/prisma.js";
 
 class ProductController {
-  async getAll(_req, res) {
+  async getAll(req, res) {
+    const name = req.query.name || undefined;
+    const categoryId = parseInt(req.query.categoryId) || undefined;
+    const isArchived =
+      req.query.isArchived === "true"
+        ? true
+        : req.query.isArchived === "false"
+          ? false
+          : undefined;
+
     const query = await prisma.product.findMany({
-      where: { isArchived: false },
+      where: {
+        name: { contains: name, mode: "insensitive" },
+        categoryId,
+        isArchived,
+      },
+      include: { category: true, supplier: true },
+    });
+
+    const products = query.map((product) => format(product));
+    res.status(200).json({ products });
+  }
+  async getAllToSale(_req, res) {
+    const query = await prisma.product.findMany({
+      where: {
+        stockQuantity: {
+          gt: 0,
+        },
+        isArchived: false,
+      },
       include: { category: true, supplier: true },
     });
 
@@ -153,6 +180,7 @@ const format = (product) => {
     supplierId: product.supplierId,
     category: product.category?.name,
     supplier: product.supplier?.name,
+    isArchived: product.isArchived,
   };
 };
 

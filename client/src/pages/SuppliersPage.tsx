@@ -1,4 +1,4 @@
-import { getSuppliers } from "@/api/store/supplier/queries";
+import { getSuppliers } from "@/api/supplier/queries";
 import { columns } from "@/components/pages/store/suppliers/data-table/columns";
 import { SuppliersTable } from "@/components/pages/store/suppliers/data-table";
 import { SimpleCard } from "@/components/simple-card";

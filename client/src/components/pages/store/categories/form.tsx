@@ -9,7 +9,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CategoryFormSchema } from "@/api/store/category/validations";
+import { CategoryFormSchema } from "@/api/category/validations";
 
 interface Props
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {

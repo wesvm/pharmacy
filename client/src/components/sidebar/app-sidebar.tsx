@@ -64,6 +64,10 @@ const items = {
       icon: ShoppingCart,
       subItems: [
         {
+          title: 'Todas las ventas',
+          url: '/sales'
+        },
+        {
           title: 'Nueva venta',
           url: '/sales/new',
         },

@@ -1,6 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { ProductFormSchema } from "@/api/store/product/validations";
+import { ProductFormSchema } from "@/api/product/validations";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {

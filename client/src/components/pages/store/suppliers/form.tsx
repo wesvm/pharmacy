@@ -9,7 +9,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SupplierFormSchema } from "@/api/store/supplier/validations";
+import { SupplierFormSchema } from "@/api/supplier/validations";
 
 interface Props
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "@/api/store/product/queries";
+import { getProducts } from "@/api/product/queries";
 import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { columns } from "@/components/pages/store/products/data-table/columns";

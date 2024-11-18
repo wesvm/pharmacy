@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { deleteSupplier } from "@/api/store/supplier/actions";
+import { deleteSupplier } from "@/api/supplier/actions";
 import {
   Dialog,
   DialogClose,
