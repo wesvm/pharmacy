@@ -18,3 +18,11 @@ export const updateProductSchema = z.object({
     id: z.coerce.number().nonnegative(),
   }),
 });
+
+export const searchProductSchema = z.object({
+  query: z.object({
+    name: z.string().optional(),
+    categoryId: z.coerce.number().optional(),
+    isArchived: z.coerce.boolean().optional(),
+  }),
+});
