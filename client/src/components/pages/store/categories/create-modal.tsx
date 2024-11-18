@@ -3,8 +3,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { createCategory } from "@/api/store/category/actions";
-import { categoryFormSchema, CategoryFormSchema } from "@/api/store/category/validations";
+import { createCategory } from "@/api/category/actions";
+import { categoryFormSchema, CategoryFormSchema } from "@/api/category/validations";
 import { CategoryForm } from "@/components/pages/store/categories/form";
 import {
   DialogClose,

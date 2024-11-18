@@ -3,8 +3,8 @@ import {
 } from '@tanstack/react-table';
 import { DataTable } from '@/components/data-table/data-table';
 import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '@/api/store/category/queries';
-import { getSuppliers } from '@/api/store/supplier/queries';
+import { getCategories } from '@/api/category/queries';
+import { getSuppliers } from '@/api/supplier/queries';
 import { createRowActionStore } from '@/store/row-action-store';
 import { DeleteProductModal } from '@/components/pages/store/products/delete-modal';
 import { CreateUpdateProductModal } from '../create-update-modal';

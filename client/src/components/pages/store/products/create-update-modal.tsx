@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import {
   createProduct,
   updateProduct,
-} from "@/api/store/product/actions";
+} from "@/api/product/actions";
 import { Dialog, DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { LoaderButton } from "@/components/loader-button";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import {
   productFormSchema,
   ProductFormSchema,
-} from "@/api/store/product/validations";
+} from "@/api/product/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductForm } from "./form";
 

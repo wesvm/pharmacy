@@ -2,8 +2,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { updateSupplier } from "@/api/store/supplier/actions";
-import { supplierFormSchema, SupplierFormSchema } from "@/api/store/supplier/validations";
+import { updateSupplier } from "@/api/supplier/actions";
+import { supplierFormSchema, SupplierFormSchema } from "@/api/supplier/validations";
 import { SupplierForm } from "@/components/pages/store/suppliers/form";
 import {
   Dialog,

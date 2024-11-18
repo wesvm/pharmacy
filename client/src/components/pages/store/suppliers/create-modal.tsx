@@ -3,8 +3,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { createSupplier } from "@/api/store/supplier/actions";
-import { supplierFormSchema, SupplierFormSchema } from "@/api/store/supplier/validations";
+import { createSupplier } from "@/api/supplier/actions";
+import { supplierFormSchema, SupplierFormSchema } from "@/api/supplier/validations";
 import { SupplierForm } from "@/components/pages/store/suppliers/form";
 import {
   DialogClose,
