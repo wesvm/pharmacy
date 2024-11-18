@@ -7,6 +7,7 @@ import RolesPage from "@/pages/RolePage";
 import SuppliersPage from "@/pages/SuppliersPage";
 import CategoriesPage from "@/pages/CategoriesPage";
 import ProductsPage from "@/pages/ProductsPage";
+import CreateSalesPage from "@/pages/CreateSalesPage";
 import SalesPage from "@/pages/SalesPage";
 
 export const router = createBrowserRouter([
@@ -58,8 +59,11 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            path: 'new',
             element: <SalesPage />
+          },
+          {
+            path: 'new',
+            element: <CreateSalesPage />
           },
           {
             path: 'delivery',
