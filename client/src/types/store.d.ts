@@ -13,7 +13,7 @@ type Category = {
 type Product = {
   id: number;
   name: string;
-  description?: string | null;
+  description: string | null;
   salePrice: number;
   purchasePrice: number;
   stockQuantity: number;
@@ -37,7 +37,28 @@ type Sale = {
   status: 'Completado' | 'Pendiente' | 'Cancelado';
   customerName: string;
   customerDNI: string;
-  deliveryId: number;
+  deliveryId: number | null;
   userId: number;
   user: Omit<User, 'email' | 'role'>;
 };
+
+type SaleDetails = Sale & {
+  saleItems: SaleItem[]
+  delivery: Delivery | null;
+}
+
+type SaleItem = {
+  id: number;
+  quantity: number;
+  price: number;
+  productId: number;
+  saleId: number;
+  product: Product;
+}
+
+type Delivery = {
+  id: number;
+  deliveryDate: string;
+  status: string;
+  address: string;
+}

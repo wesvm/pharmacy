@@ -5,3 +5,9 @@ export const getSales = async (): Promise<{ sales: Sale[] }> => {
     method: 'GET',
   });
 };
+
+export const getSaleById = async (id: number): Promise<{ sale: SaleDetails }> => {
+  return apiRequest<{ sale: SaleDetails }>(`/sales/${id}`, {
+    method: 'GET',
+  });
+};

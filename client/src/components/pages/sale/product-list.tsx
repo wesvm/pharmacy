@@ -38,7 +38,15 @@ export const ProductList = () => {
                 >
                   <CardContent className="p-4 flex flex-col items-center">
                     <div className="size-24 bg-gray-200 dark:bg-gray-700 rounded-full mb-2 flex items-center justify-center">
-                      <Package className="size-12 text-gray-400" />
+                      {product.imageUrl ? (
+                        <img
+                          src={product.imageUrl}
+                          alt={product.name}
+                          className="object-cover w-full h-full rounded-full"
+                        />
+                      ) : (
+                        <Package className="size-12 text-gray-400" />
+                      )}
                     </div>
                     <h3 className="font-semibold text-center">{product.name}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">

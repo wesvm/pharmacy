@@ -27,7 +27,8 @@ import { DataTableToolbar } from './data-table-toolbar';
 interface DataTableProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  filterFields?: DataTableFilterField<TData>[]
+  filterFields?: DataTableFilterField<TData>[];
+  onRowSelect?: (row: TData) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -36,6 +37,7 @@ export function DataTable<TData, TValue>({
   filterFields,
   children,
   className,
+  onRowSelect,
   ...props
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
@@ -89,6 +91,8 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  className={onRowSelect && 'cursor-pointer'}
+                  onClick={() => onRowSelect && onRowSelect(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
