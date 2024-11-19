@@ -11,6 +11,27 @@ class SaleController {
     });
     res.status(200).json({ sales });
   }
+  async getById(req, res, next) {
+    const { id } = req.params;
+    try {
+      const sale = await prisma.sale.findUnique({
+        where: { id: parseInt(id) },
+        include: {
+          saleItems: { include: { product: true } },
+          delivery: true,
+          user: { select: { id: true, name: true } }
+        }
+      });
+
+      if (!sale) {
+        return res.status(404).json({ error: "Venta no encontrado." });
+      }
+
+      res.status(200).json({ sale });
+    } catch (error) {
+      next(error);
+    }
+  }
   async create(req, res, next) {
     const {
       customerName,
