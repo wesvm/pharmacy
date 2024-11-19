@@ -2,7 +2,6 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "@/setup/auth-context"
 import {
-  Hospital,
   IdCard,
   LogOut,
   Package,
@@ -24,6 +23,7 @@ import {
 import { LogoutModal } from "@/components/auth/logout-modal.tsx"
 import { NavMain } from "./nav-main.tsx"
 import { NavSecondary } from "./nav-secondary"
+import logo from "@/assets/logo.jpg"
 
 const items = {
   'main': [
@@ -96,8 +96,11 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
               <Link to='/' className="justify-center">
-                <Hospital />
-                {/* <span>Logo</span> */}
+                <img
+                  src={logo}
+                  alt="pharmacy logo"
+                  className="group-data-[collapsible=icon]:size-8 size-10 rounded-md"
+                />
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
