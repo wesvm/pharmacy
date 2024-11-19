@@ -1,8 +1,12 @@
 import { apiRequest } from "@/api/api-service";
 import { SaleFormSchema } from "./validations";
 
-export const createSale = async (values: SaleFormSchema): Promise<ApiResonse> => {
-  return apiRequest<ApiResonse>('/sales', {
+interface SaleResponse extends ApiResonse {
+  sale: Sale;
+}
+
+export const createSale = async (values: SaleFormSchema): Promise<SaleResponse> => {
+  return apiRequest<SaleResponse>('/sales', {
     method: 'POST',
     body: JSON.stringify(values),
   });

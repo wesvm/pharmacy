@@ -37,7 +37,7 @@ export default function LoginPage() {
 
   return (
     <main className="h-dvh flex items-center justify-center">
-      <Card className="mx-auto w-full max-w-sm">
+      <Card className="mx-auto w-full max-w-sm shadow-md">
         <CardHeader className="items-center">
           <CardTitle>Inicio de sesión</CardTitle>
           <CardDescription>Ingresa tus credenciales para comenzar.</CardDescription>

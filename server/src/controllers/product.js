@@ -180,6 +180,7 @@ const format = (product) => {
     supplierId: product.supplierId,
     category: product.category?.name,
     supplier: product.supplier?.name,
+    imageUrl: product.imageUrl,
     isArchived: product.isArchived,
   };
 };
