@@ -60,7 +60,10 @@ export const CreateUpdateProductModal = ({ product, ...props }: Props) => {
         return;
       }
 
-      queryClient.invalidateQueries({ queryKey: ["products", "productsToSale"] });
+      queryClient.invalidateQueries({
+        predicate: (query) => ['products', 'productsToSale'].includes(query.queryKey[0] as string),
+        refetchType: 'all',
+      });
       form.reset()
       toast.success(message);
       props.onOpenChange?.(false);

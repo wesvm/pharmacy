@@ -22,15 +22,14 @@ export const columns: ColumnDef<Delivery>[] = [
   {
     accessorKey: "sale.saleDate",
     header: "Fecha compra",
-    cell: ({ row }) => (format(row.original.sale?.saleDate!, "dd/MM/yyyy HH:mm"))
+    cell: ({ row }) => format(row.original.sale?.saleDate!, "dd/MM/yyyy HH:mm")
   },
   {
     accessorKey: "sale.deliveryDate",
     header: "Fecha de entrega",
-    cell: ({ row }) => (row.original.deliveryDate
-      ? format(row.original.deliveryDate, "dd/MM/yyyy HH:mm")
+    cell: ({ row }) => row.original.deliveryDate
+      ? format(row.original.deliveryDate, "dd/MM/yyyy")
       : null
-    )
   },
   {
     accessorKey: "status",

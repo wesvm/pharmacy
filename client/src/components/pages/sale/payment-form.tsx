@@ -70,7 +70,11 @@ export const PaymentSection = () => {
       setSaleId(createdSale.id);
       setOpen(true);
 
-      queryClient.invalidateQueries({ queryKey: ['productsToSale', 'products', 'sales', 'deliveries'] });
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          ['productsToSale', 'products', 'sales', 'deliveries'].includes(query.queryKey[0] as string),
+        refetchType: 'all'
+      });
       form.reset()
       removeAll()
       toast.success(message)
