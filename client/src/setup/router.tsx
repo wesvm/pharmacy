@@ -9,6 +9,7 @@ import CategoriesPage from "@/pages/CategoriesPage";
 import ProductsPage from "@/pages/ProductsPage";
 import CreateSalesPage from "@/pages/CreateSalesPage";
 import SalesPage from "@/pages/SalesPage";
+import DeliveriesPage from "@/pages/DeliveriesPage";
 
 export const router = createBrowserRouter([
   {
@@ -67,7 +68,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'delivery',
-            element: <div>all deliveries</div>
+            element: <DeliveriesPage />
           }
         ]
       },

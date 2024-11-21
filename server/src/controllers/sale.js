@@ -50,7 +50,6 @@ class SaleController {
         if (delivery && address) {
           const delivery = await prisma.delivery.create({
             data: {
-              deliveryDate: new Date(),
               status: "Pendiente",
               address,
             },

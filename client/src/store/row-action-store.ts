@@ -2,8 +2,8 @@ import { create } from 'zustand';
 
 export interface RowActionStore<T> {
   row: T | null;
-  type: "update" | "delete" | null;
-  setRowAction: (row: T, type: "update" | "delete") => void;
+  type: "update" | "delete" | "show" | null;
+  setRowAction: (row: T, type: "update" | "delete" | "show") => void;
   clearRowAction: () => void;
 }
 

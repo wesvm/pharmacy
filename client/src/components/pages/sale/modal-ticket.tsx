@@ -18,13 +18,11 @@ import {
 import { PurchaseTicket } from "@/components/pages/sale/purchase-ticket";
 import { Button } from "@/components/ui/button";
 
-interface Props {
+interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   saleId: number;
-  open: boolean;
-  setOpen: (open: boolean) => void;
 }
 
-export const ModalTicket = ({ saleId, open, setOpen }: Props) => {
+export const ModalTicket = ({ saleId, ...props }: Props) => {
   const { status, data } = useQuery({
     queryKey: ['saleById', saleId],
     queryFn: () => getSaleById(saleId),
@@ -62,8 +60,8 @@ export const ModalTicket = ({ saleId, open, setOpen }: Props) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent onInteractOutside={(e) => e.preventDefault()}>
+    <Dialog {...props}>
+      <DialogContent>
         <DialogHeader className="hidden">
           <DialogTitle></DialogTitle>
           <DialogDescription>
