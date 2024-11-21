@@ -47,7 +47,10 @@ export const UpdateCategoryModal = ({ category, ...props }: Props) => {
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      queryClient.invalidateQueries({
+        predicate: (query) => ['categories', 'products'].includes(query.queryKey[0] as string),
+        refetchType: 'all',
+      });
       form.reset()
       toast.success(message)
       props.onOpenChange?.(false)

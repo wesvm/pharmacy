@@ -45,7 +45,10 @@ export const UpdateRoleModal = ({ role, ...props }: Props) => {
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({
+        predicate: (query) => ['roles', 'users'].includes(query.queryKey[0] as string),
+        refetchType: 'all',
+      });
       form.reset()
       toast.success(message)
       props.onOpenChange?.(false)
