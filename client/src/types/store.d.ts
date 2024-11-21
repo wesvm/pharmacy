@@ -58,7 +58,8 @@ type SaleItem = {
 
 type Delivery = {
   id: number;
-  deliveryDate: string;
+  deliveryDate: string | null;
   status: string;
   address: string;
+  sale?: Sale;
 }
