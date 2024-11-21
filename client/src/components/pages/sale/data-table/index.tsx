@@ -23,7 +23,7 @@ export function SalesTable({
         <ModalTicket
           saleId={selectedSale.id}
           open={open}
-          setOpen={setOpen}
+          onOpenChange={setOpen}
         />
       )}
       <DataTable

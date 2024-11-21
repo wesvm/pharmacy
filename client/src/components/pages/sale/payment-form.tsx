@@ -70,7 +70,7 @@ export const PaymentSection = () => {
       setSaleId(createdSale.id);
       setOpen(true);
 
-      queryClient.invalidateQueries({ queryKey: ['productsToSale', 'products', 'sales'] });
+      queryClient.invalidateQueries({ queryKey: ['productsToSale', 'products', 'sales', 'deliveries'] });
       form.reset()
       removeAll()
       toast.success(message)
@@ -237,7 +237,7 @@ export const PaymentSection = () => {
         <ModalTicket
           saleId={saleId}
           open={open}
-          setOpen={setOpen}
+          onOpenChange={setOpen}
         />
       )}
     </>
