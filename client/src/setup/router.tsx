@@ -12,6 +12,7 @@ import SalesPage from "@/pages/SalesPage";
 import DeliveriesPage from "@/pages/DeliveriesPage";
 import PurchasesPage from "@/pages/PurchasesPage";
 import CreatePurchasePage from "@/pages/CreatePurchasePage";
+import HomePage from "@/pages/HomePage";
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <div>home</div>
+        element: <HomePage />
       },
       {
         element: <ProtectedRoute requiredRoles={['administrador']} />,

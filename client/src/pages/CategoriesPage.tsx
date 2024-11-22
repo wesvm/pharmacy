@@ -4,6 +4,7 @@ import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CategoriesTable } from "@/components/pages/store/categories/data-table";
 import { columns } from "@/components/pages/store/categories/data-table/columns";
+import SEO from "@/setup/seo";
 
 export default function CategoriesPage() {
   const { status, data } = useQuery({
@@ -12,7 +13,10 @@ export default function CategoriesPage() {
   });
 
   return (
-    <div>
+    <SEO
+      title="Gestión de Categorias - Pharmacy"
+      description="Visualiza y administra las categorias."
+    >
       <SimpleCard className="mb-4">
         <h1 className="font-bold text-2xl">Categorias</h1>
       </SimpleCard>
@@ -31,6 +35,6 @@ export default function CategoriesPage() {
           />
         )}
       </SimpleCard>
-    </div>
+    </SEO>
   )
 }

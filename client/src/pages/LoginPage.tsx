@@ -6,6 +6,7 @@ import { loginSchema, type LoginSchema } from "@/api/auth/validations";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import SEO from "@/setup/seo";
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -36,16 +37,21 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="h-dvh flex items-center justify-center">
-      <Card className="mx-auto w-full max-w-sm shadow-md">
-        <CardHeader className="items-center">
-          <CardTitle>Inicio de sesión</CardTitle>
-          <CardDescription>Ingresa tus credenciales para comenzar.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <LoginForm form={form} onSubmit={onSubmit} />
-        </CardContent>
-      </Card>
-    </main>
+    <SEO
+      title="Inicio de sesión - Pharmacy"
+      description="Ingresa tus credenciales para acceder."
+    >
+      <main className="h-dvh flex items-center justify-center">
+        <Card className="mx-auto w-full max-w-sm shadow-md">
+          <CardHeader className="items-center">
+            <CardTitle>Inicio de sesión</CardTitle>
+            <CardDescription>Ingresa tus credenciales para comenzar.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LoginForm form={form} onSubmit={onSubmit} />
+          </CardContent>
+        </Card>
+      </main>
+    </SEO>
   )
 }

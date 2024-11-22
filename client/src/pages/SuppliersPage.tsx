@@ -4,6 +4,7 @@ import { SuppliersTable } from "@/components/pages/store/suppliers/data-table";
 import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
+import SEO from "@/setup/seo";
 
 export default function SuppliersPage() {
   const { status, data } = useQuery({
@@ -12,7 +13,10 @@ export default function SuppliersPage() {
   });
 
   return (
-    <div>
+    <SEO
+      title="Gestión de Proveedores - Pharmacy"
+      description="Visualiza y administra los proveedores."
+    >
       <SimpleCard className="mb-4">
         <h1 className="font-bold text-2xl">Proveedores</h1>
       </SimpleCard>
@@ -31,6 +35,6 @@ export default function SuppliersPage() {
           />
         )}
       </SimpleCard>
-    </div>
+    </SEO>
   )
 }
