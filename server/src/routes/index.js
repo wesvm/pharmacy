@@ -9,6 +9,7 @@ import supplierRoutes from "./supplier.js";
 import productRoutes from "./product.js";
 import saleRoutes from "./sale.js";
 import deliveryRoutes from "./delivery.js";
+import purchaseRoutes from "./purchase.js";
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use("/suppliers", auth, supplierRoutes);
 router.use("/products", auth, productRoutes);
 router.use("/sales", auth, saleRoutes);
 router.use("/deliveries", auth, deliveryRoutes);
+router.use("/purchases", auth, purchaseRoutes);
 
 export default router;
