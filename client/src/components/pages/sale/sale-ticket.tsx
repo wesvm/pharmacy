@@ -1,5 +1,12 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatter } from "@/lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card"
 import {
   CalendarDays,
   IdCard,
@@ -8,12 +15,12 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
-export const PurchaseTicket = ({ sale }: { sale: SaleDetails }) => {
+export const SaleTicket = ({ sale }: { sale: SaleDetails }) => {
   const deliveryCost = sale.deliveryId ? 5.0 : 0;
   const subtotal = sale.total - deliveryCost;
 
   return (
-    <Card className="max-w-xs shadow-lg w-full" id="purchase-ticket">
+    <Card className="max-w-xs shadow-lg w-full" id="sale-ticket">
       <CardHeader className="text-center border-b mb-4">
         <CardTitle className="text-2xl font-bold">Ticket de compra</CardTitle>
         <CardDescription>¡Gracias por su compra!</CardDescription>

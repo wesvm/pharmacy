@@ -1,7 +1,7 @@
 import { toPng } from 'html-to-image';
 import jsPDF from 'jspdf';
 import { useQuery } from "@tanstack/react-query";
-import { getSaleById } from "@/api/sale/queries";
+import { getPurchaseById } from '@/api/purchase/queries';
 import {
   Dialog,
   DialogContent,
@@ -15,27 +15,27 @@ import {
   Image,
   LoaderCircle
 } from "lucide-react";
-import { SaleTicket } from "@/components/pages/sale/sale-ticket";
+import { PurchaseTicket } from "@/components/pages/purchase/purchase-ticket";
 import { Button } from "@/components/ui/button";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  saleId: number;
+  purchaseId: number;
 }
 
-export const ModalTicket = ({ saleId, ...props }: Props) => {
+export const ModalTicket = ({ purchaseId, ...props }: Props) => {
   const { status, data } = useQuery({
-    queryKey: ['saleById', saleId],
-    queryFn: () => getSaleById(saleId),
+    queryKey: ['purchaseById', purchaseId],
+    queryFn: () => getPurchaseById(purchaseId),
   });
 
   const handleDownloadImage = () => {
-    const ticketElement = document.getElementById('sale-ticket');
+    const ticketElement = document.getElementById('purchase-ticket');
     if (ticketElement) {
       toPng(ticketElement)
         .then((dataUrl) => {
           const link = document.createElement('a');
           link.href = dataUrl;
-          link.download = `ticket-ord-${saleId}.png`;
+          link.download = `ticket-ord-${purchaseId}.png`;
           link.click();
         })
         .catch((err) => {
@@ -45,13 +45,13 @@ export const ModalTicket = ({ saleId, ...props }: Props) => {
   };
 
   const handleDownloadPDF = () => {
-    const ticketElement = document.getElementById('sale-ticket');
+    const ticketElement = document.getElementById('purchase-ticket');
     if (ticketElement) {
       const pdf = new jsPDF();
       toPng(ticketElement)
         .then((dataUrl) => {
           pdf.addImage(dataUrl, 'PNG', 68, 10, 0, 0);
-          pdf.save(`ticket-ord-${saleId}.pdf`);
+          pdf.save(`ticket-ord-${purchaseId}.pdf`);
         })
         .catch((err) => {
           console.error('Error generating PDF:', err);
@@ -77,7 +77,7 @@ export const ModalTicket = ({ saleId, ...props }: Props) => {
               />
             </div>
           )}
-          {status === 'success' && (<SaleTicket sale={data.sale} />)}
+          {status === 'success' && (<PurchaseTicket purchase={data.purchase} />)}
         </div>
         <DialogFooter>
           <Button

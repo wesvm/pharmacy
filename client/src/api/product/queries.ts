@@ -11,3 +11,9 @@ export const getProductsToSale = async (): Promise<{ products: Product[] }> => {
     method: 'GET',
   });
 };
+
+export const getProductsToPurchase = async (): Promise<{ products: Product[] }> => {
+  return apiRequest<{ products: Product[] }>('/products?isArchived=false', {
+    method: 'GET',
+  });
+};

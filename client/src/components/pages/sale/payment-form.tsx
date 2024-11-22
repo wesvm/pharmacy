@@ -190,13 +190,16 @@ export const PaymentSection = () => {
                             <Button variant="ghost" size="icon"
                               type="button"
                               onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                              disabled={item.quantity <= 1}
                             >
                               <Minus className="size-4" />
                             </Button>
                             <span className="px-2">{item.quantity}</span>
                             <Button variant="ghost" size="icon"
                               type="button"
-                              onClick={() => updateQuantity(item.productId, item.quantity + 1)}>
+                              onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                              disabled={item.quantity >= item.product.stockQuantity}
+                            >
                               <Plus className="size-4" />
                             </Button>
                           </div>
