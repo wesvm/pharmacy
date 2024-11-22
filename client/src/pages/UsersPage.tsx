@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { UsersTable } from "@/components/pages/user/data-table";
 import { columns } from "@/components/pages/user/data-table/columns";
 import { useQuery } from "@tanstack/react-query";
+import SEO from "@/setup/seo";
 
 export default function UsersPage() {
   const { status, data } = useQuery({
@@ -12,7 +13,10 @@ export default function UsersPage() {
   });
 
   return (
-    <div>
+    <SEO
+      title="Gestión de Usuarios - Pharmacy"
+      description="Visualiza y administra los usuarios registrados."
+    >
       <SimpleCard className="mb-4">
         <h1 className="font-bold text-2xl">Usuarios</h1>
       </SimpleCard>
@@ -31,6 +35,6 @@ export default function UsersPage() {
           />
         )}
       </SimpleCard>
-    </div>
+    </SEO>
   )
 }

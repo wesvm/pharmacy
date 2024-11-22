@@ -4,6 +4,7 @@ import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { columns } from "@/components/pages/store/products/data-table/columns";
 import { ProductsTable } from "@/components/pages/store/products/data-table";
+import SEO from "@/setup/seo";
 
 export default function ProductsPage() {
   const { status, data } = useQuery({
@@ -12,7 +13,10 @@ export default function ProductsPage() {
   });
 
   return (
-    <div>
+    <SEO
+      title="Gestión de Productos - Pharmacy"
+      description="Visualiza y administra los productos."
+    >
       <SimpleCard className="mb-4">
         <h1 className="font-bold text-2xl">Productos</h1>
       </SimpleCard>
@@ -31,6 +35,6 @@ export default function ProductsPage() {
           />
         )}
       </SimpleCard>
-    </div>
+    </SEO>
   )
 }

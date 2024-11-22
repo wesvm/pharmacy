@@ -22,7 +22,7 @@ const Layout = () => {
             <UserNav />
           </div>
         </header>
-        <div className="container contain-size mx-auto py-4 px-10 space-y-4">
+        <div className="container contain-size mx-auto py-4 px-4 md:px-10 space-y-4">
           <Outlet />
         </div>
       </SidebarInset>

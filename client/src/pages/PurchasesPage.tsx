@@ -4,6 +4,7 @@ import { columns } from "@/components/pages/purchase/data-table/columns";
 import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
+import SEO from "@/setup/seo";
 
 export default function PurchasesPage() {
   const { status, data } = useQuery({
@@ -12,7 +13,10 @@ export default function PurchasesPage() {
   });
 
   return (
-    <div>
+    <SEO
+      title="Gestión de Compras - Pharmacy"
+      description="Visualiza y gestiona las compras realizadas."
+    >
       <SimpleCard className="mb-4">
         <h1 className="font-bold text-2xl">Compras</h1>
       </SimpleCard>
@@ -31,6 +35,6 @@ export default function PurchasesPage() {
           />
         )}
       </SimpleCard>
-    </div>
+    </SEO>
   )
 }

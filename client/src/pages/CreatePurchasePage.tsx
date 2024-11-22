@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
 import { PaymentSection } from "@/components/pages/purchase/form";
+import SEO from "@/setup/seo";
 
 export default function CreatePurchasePage() {
   const { status, data } = useQuery({
@@ -27,7 +28,10 @@ export default function CreatePurchasePage() {
   });
 
   return (
-    <>
+    <SEO
+      title="Realizar Compra - Pharmacy"
+      description="Selecciona los productos para realizar una compra."
+    >
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -61,6 +65,6 @@ export default function CreatePurchasePage() {
           </ResizablePanel>
         </ResizablePanelGroup>
       </SimpleCard>
-    </>
+    </SEO>
   )
 }

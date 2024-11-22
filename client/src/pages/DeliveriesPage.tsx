@@ -4,6 +4,7 @@ import { SimpleCard } from "@/components/simple-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DeliveriesTable } from "@/components/pages/sale/delivery/data-table";
 import { columns } from "@/components/pages/sale/delivery/data-table/columns";
+import SEO from "@/setup/seo";
 
 export default function DeliveriesPage() {
   const { status, data } = useQuery({
@@ -12,7 +13,10 @@ export default function DeliveriesPage() {
   });
 
   return (
-    <div>
+    <SEO
+      title="Gestión de Entregas - Pharmacy"
+      description="Visualiza y gestiona las entregas."
+    >
       <SimpleCard className="mb-4">
         <h1 className="font-bold text-2xl">Entregas</h1>
       </SimpleCard>
@@ -31,6 +35,6 @@ export default function DeliveriesPage() {
           />
         )}
       </SimpleCard>
-    </div>
+    </SEO>
   )
 }
