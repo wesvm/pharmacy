@@ -63,3 +63,26 @@ type Delivery = {
   address: string;
   sale?: Sale;
 }
+
+type Purchase = {
+  id: number;
+  purchaseDate: string;
+  total: number;
+  status: 'Completado' | 'Pendiente' | 'Cancelado';
+  supplierId: number;
+  userId: number;
+  user: Omit<User, 'email' | 'role'>;
+}
+
+type PurchaseItem = {
+  id: number;
+  quantity: number;
+  price: number;
+  productId: number;
+  purchaseId: number;
+  product: Product;
+}
+
+type PurchaseDetails = Purchase & {
+  purchaseItems: PurchaseItem[]
+}

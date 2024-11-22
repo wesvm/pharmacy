@@ -14,7 +14,6 @@ export default (err, _req, res, _next) => {
   }
 
   res.status(500).json({
-    error: "Error interno del servidor",
-    message: err.message || "Ocurrió un error inesperado",
+    error: err.message || "Ocurrió un error inesperado",
   });
 };

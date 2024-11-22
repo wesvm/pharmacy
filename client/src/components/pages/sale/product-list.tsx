@@ -1,18 +1,19 @@
-import { getProductsToSale } from "@/api/product/queries";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProductFilters } from "@/hooks/use-product-filters";
 import { formatter } from "@/lib/utils";
-import { useCartStore } from "@/store/cart-store";
-import { useQuery } from "@tanstack/react-query";
+import { useCartStore, usePurchaseCartStore } from "@/store/cart-store";
 import { Package } from "lucide-react";
 
-export const ProductList = () => {
-  const { status, data } = useQuery({
-    queryKey: ['productsToSale'],
-    queryFn: () => getProductsToSale()
-  });
-  const { addItem, items } = useCartStore();
+interface Props {
+  data?: { products: Product[] };
+  status: "error" | "success" | "pending";
+  type: "sale" | "purchase";
+}
+
+export const ProductList = ({ data, status, type }: Props) => {
+  const store = type === "sale" ? useCartStore() : usePurchaseCartStore();
+  const { addItem, items } = store;
   const { categoryId, search } = useProductFilters();
 
   const filteredProducts = data?.products.filter((product) => {
@@ -50,7 +51,8 @@ export const ProductList = () => {
                     </div>
                     <h3 className="font-semibold text-center">{product.name}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {formatter.format(product.salePrice)}
+                      {type === 'sale' && (formatter.format(product.salePrice))}
+                      {type === 'purchase' && (formatter.format(product.purchasePrice))}
                     </p>
                   </CardContent>
                 </Card>

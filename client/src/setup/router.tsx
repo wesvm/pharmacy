@@ -10,6 +10,8 @@ import ProductsPage from "@/pages/ProductsPage";
 import CreateSalesPage from "@/pages/CreateSalesPage";
 import SalesPage from "@/pages/SalesPage";
 import DeliveriesPage from "@/pages/DeliveriesPage";
+import PurchasesPage from "@/pages/PurchasesPage";
+import CreatePurchasePage from "@/pages/CreatePurchasePage";
 
 export const router = createBrowserRouter([
   {
@@ -74,7 +76,16 @@ export const router = createBrowserRouter([
       },
       {
         path: 'purchases',
-        element: <div>all purchases</div>
+        children: [
+          {
+            index: true,
+            element: <PurchasesPage />
+          },
+          {
+            path: 'new',
+            element: <CreatePurchasePage />
+          }
+        ]
       }
     ]
   },

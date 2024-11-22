@@ -47,6 +47,11 @@ class SaleController {
         let deliveryId = null;
         let calculatedTotal = 0;
 
+        const user = await prisma.user.findUniqueOrThrow({
+          where: { id: userId },
+          select: { id: true }
+        })
+
         if (delivery && address) {
           const delivery = await prisma.delivery.create({
             data: {
@@ -58,16 +63,11 @@ class SaleController {
           calculatedTotal += 5;
         }
 
-        const user = await prisma.user.findUniqueOrThrow({
-          where: { id: userId },
-          select: { id: true }
-        })
-
         const sale = await prisma.sale.create({
           data: {
             saleDate: new Date(),
             total: 0,
-            status: "Completado",
+            status: "Pendiente",
             customerName,
             customerDNI,
             userId: user.id,
@@ -119,7 +119,10 @@ class SaleController {
 
         await prisma.sale.update({
           where: { id: sale.id },
-          data: { total: calculatedTotal },
+          data: {
+            status: "Completado",
+            total: calculatedTotal
+          },
         });
 
         return sale;
