@@ -60,7 +60,7 @@ export const PaymentSection = () => {
 
       queryClient.invalidateQueries({
         predicate: (query) =>
-          ['productsToSale', 'products', 'productsToPurchase'].includes(query.queryKey[0] as string),
+          ['productsToSale', 'products', 'productsToPurchase', 'purchases'].includes(query.queryKey[0] as string),
         refetchType: 'all'
       });
       form.reset()
