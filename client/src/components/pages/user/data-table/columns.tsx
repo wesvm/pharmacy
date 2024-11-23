@@ -18,6 +18,7 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "role",
     header: "Rol",
     cell: ({ row }) => (row.original.role.toUpperCase()),
+    filterFn: (row, id, value) => value.includes(row.getValue(id))
   },
   {
     id: "actions",

@@ -32,10 +32,12 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "category",
     header: "Categoría",
+    filterFn: (row, id, value) => value.includes(row.getValue(id))
   },
   {
     accessorKey: "supplier",
     header: "Proveedor",
+    filterFn: (row, id, value) => value.includes(row.getValue(id))
   },
   {
     id: "actions",

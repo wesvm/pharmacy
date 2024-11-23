@@ -34,6 +34,7 @@ export const columns: ColumnDef<Delivery>[] = [
   {
     accessorKey: "status",
     header: "Estado",
+    filterFn: (row, id, value) => value.includes(row.getValue(id))
   },
   {
     id: "actions",
