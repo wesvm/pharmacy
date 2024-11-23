@@ -2,6 +2,7 @@ import { Router } from "express";
 import auth from "../middlewares/auth.js";
 import roles from "../middlewares/role.js";
 import authController from "../controllers/auth.js";
+import summaryController from "../controllers/summary.js";
 import roleRoutes from "./role.js";
 import userRoutes from "./user.js";
 import categoryRoutes from "./category.js";
@@ -22,5 +23,6 @@ router.use("/products", auth, productRoutes);
 router.use("/sales", auth, saleRoutes);
 router.use("/deliveries", auth, deliveryRoutes);
 router.use("/purchases", auth, purchaseRoutes);
+router.use("/summary", auth, summaryController.get)
 
 export default router;
