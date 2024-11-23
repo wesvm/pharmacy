@@ -34,6 +34,7 @@
     "jspdf": "2.5.2",
     "lucide-react": "0.455.0",
     "react": "18.3.1",
+    "react-countup": "^6.5.3",
     "react-day-picker": "^8.10.1",
     "react-dom": "18.3.1",
     "react-helmet-async": "^2.0.5",

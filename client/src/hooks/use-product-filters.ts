@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export function useProductFilters() {
@@ -14,27 +14,21 @@ export function useProductFilters() {
         params.set('search', filters.search);
       }
 
+      if (filters.search === '') {
+        params.delete('search');
+      }
+
       if (filters.categoryId) {
         params.set('categoryId', filters.categoryId.toString());
       }
 
-      return params;
-    });
-  }, []);
-
-  useEffect(() => {
-    setSearchParams((params) => {
-      if (search === '') {
-        params.delete('search');
-      }
-
-      if (categoryId === -1) {
+      if (filters.categoryId === undefined) {
         params.delete('categoryId');
       }
 
       return params;
     });
-  }, [search, categoryId])
+  }, []);
 
   return {
     search,
