@@ -4,6 +4,7 @@ import { useProductFilters } from "@/hooks/use-product-filters";
 import { formatter } from "@/lib/utils";
 import { useCartStore, usePurchaseCartStore } from "@/store/cart-store";
 import { Package } from "lucide-react";
+import { useMemo } from "react";
 
 interface Props {
   data?: { products: Product[] };
@@ -16,13 +17,15 @@ export const ProductList = ({ data, status, type }: Props) => {
   const { addItem, items } = store;
   const { categoryId, search } = useProductFilters();
 
-  const filteredProducts = data?.products.filter((product) => {
-    const matchesCategory = categoryId ? product.categoryId === categoryId : true;
-    const matchesSearch = search
-      ? product.name.toLowerCase().includes(search.toLowerCase())
-      : true;
-    return matchesCategory && matchesSearch;
-  });
+  const filteredProducts = useMemo(() => {
+    if (!data?.products) return [];
+    return data.products.filter((product) => {
+      const matchesCategory = !categoryId || product.categoryId === categoryId;
+      const matchesSearch = !search ||
+        product.name.toLowerCase().includes(search.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [data?.products, categoryId, search]);
 
   return (
     <>
