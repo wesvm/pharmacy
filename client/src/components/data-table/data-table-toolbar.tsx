@@ -42,6 +42,7 @@ export function DataTableToolbar<TData>({
   className,
   ...props
 }: DataTableToolbarProps<TData>) {
+  const inputId = React.useId()
   const isFiltered = table.getState().columnFilters.length > 0
 
   // Memoize computation of searchableColumns and filterableColumns
@@ -66,6 +67,7 @@ export function DataTableToolbar<TData>({
             (column) =>
               table.getColumn(column.id ? String(column.id) : "") && (
                 <Input
+                  id={inputId}
                   key={String(column.id)}
                   placeholder={column.placeholder}
                   value={

@@ -13,7 +13,7 @@ export const ProductFilters = () => {
 
   const handleOnClick = (id: number) => {
     if (categoryId === id) {
-      setFilters({ categoryId: -1 });
+      setFilters({ categoryId: undefined });
     } else {
       setFilters({ categoryId: id });
     }

@@ -40,6 +40,7 @@ export const LoginForm = ({
                 <Input
                   placeholder="elon@mail.com"
                   type="text"
+                  autoComplete="email"
                   disabled={form.formState.isSubmitting}
                   required
                   {...field}
@@ -60,6 +61,7 @@ export const LoginForm = ({
               <FormControl>
                 <PasswordInput
                   placeholder="******"
+                  autoComplete="current-password"
                   disabled={form.formState.isSubmitting}
                   required
                   {...field}
