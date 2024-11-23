@@ -18,3 +18,22 @@ type Option = {
   count?: number
 }
 
+type DateFilters = {
+  from?: Date;
+  to?: Date;
+}
+
+type Summary = {
+  sales: SaleSummary;
+  purchases: PurchaseSummary;
+}
+
+type SaleSummary = {
+  totalRevenue: number;
+  total: number;
+}
+
+type PurchaseSummary = {
+  totalExpenses: number;
+  total: number;
+}
