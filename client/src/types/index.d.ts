@@ -26,14 +26,17 @@ type DateFilters = {
 type Summary = {
   sales: SaleSummary;
   purchases: PurchaseSummary;
+  daily: DailySummary[];
+  salesByUser: UserSummary[];
 }
 
-type SaleSummary = {
-  totalRevenue: number;
-  total: number;
-}
-
-type PurchaseSummary = {
+type DailySummary = {
+  day: string;
   totalExpenses: number;
-  total: number;
+  totalRevenue: number;
+}
+
+type UserSummary = User & {
+  totalSales: number;
+  totalRevenue: number;
 }
