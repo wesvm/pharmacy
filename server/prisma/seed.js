@@ -15,6 +15,8 @@ async function main() {
   await prisma.role.deleteMany({});
   await prisma.saleItem.deleteMany({});
   await prisma.sale.deleteMany({});
+  await prisma.purchaseItem.deleteMany({});
+  await prisma.purchase.deleteMany({});
   await prisma.product.deleteMany({});
   await prisma.delivery.deleteMany({});
   await prisma.category.deleteMany({});
@@ -25,6 +27,8 @@ async function main() {
   await prisma.$executeRaw`ALTER SEQUENCE "Product_id_seq" RESTART WITH 1;`;
   await prisma.$executeRaw`ALTER SEQUENCE "SaleItem_id_seq" RESTART WITH 1;`;
   await prisma.$executeRaw`ALTER SEQUENCE "Sale_id_seq" RESTART WITH 1;`;
+  await prisma.$executeRaw`ALTER SEQUENCE "PurchaseItem_id_seq" RESTART WITH 1;`;
+  await prisma.$executeRaw`ALTER SEQUENCE "Purchase_id_seq" RESTART WITH 1;`;
   await prisma.$executeRaw`ALTER SEQUENCE "Delivery_id_seq" RESTART WITH 1;`;
   await prisma.$executeRaw`ALTER SEQUENCE "Category_id_seq" RESTART WITH 1;`;
   await prisma.$executeRaw`ALTER SEQUENCE "Supplier_id_seq" RESTART WITH 1;`;
