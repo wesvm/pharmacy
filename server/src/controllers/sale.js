@@ -65,7 +65,6 @@ class SaleController {
 
         const sale = await prisma.sale.create({
           data: {
-            saleDate: new Date(),
             total: 0,
             status: "Pendiente",
             customerName,

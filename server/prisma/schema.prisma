@@ -68,7 +68,7 @@ model Supplier {
 
 model Purchase {
   id           Int      @id @default(autoincrement())
-  purchaseDate DateTime @default(now())
+  purchaseDate DateTime @default(now()) @db.Timestamptz()
   total        Decimal  @db.Money
   status       String
   supplierId   Int
@@ -93,7 +93,7 @@ model PurchaseItem {
 
 model Sale {
   id           Int        @id @default(autoincrement())
-  saleDate     DateTime   @default(now())
+  saleDate     DateTime   @default(now()) @db.Timestamptz()
   total        Decimal    @db.Money
   status       String
   saleItems    SaleItem[]
@@ -120,7 +120,7 @@ model SaleItem {
 
 model Delivery {
   id           Int       @id @default(autoincrement())
-  deliveryDate DateTime?
+  deliveryDate DateTime? @db.Timestamptz()
   status       String
   address      String
 

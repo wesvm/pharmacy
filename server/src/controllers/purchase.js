@@ -45,7 +45,6 @@ class SaleController {
 
         const purchase = await tx.purchase.create({
           data: {
-            purchaseDate: new Date(),
             total: 0,
             status: "Pendiente",
             userId: user.id,
