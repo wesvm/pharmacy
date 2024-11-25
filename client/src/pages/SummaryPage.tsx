@@ -15,8 +15,8 @@ export default function SummaryPage() {
   const dateFrom = from.toISOString().split('T')[0];
   const dateTo = to.toISOString().split('T')[0];
   const { status, data } = useQuery({
-    queryKey: ['summary', dateFrom, dateTo],
-    queryFn: () => getSummary({ from: dateFrom, to: dateTo }),
+    queryKey: ['summary', { dateFrom, dateTo }],
+    queryFn: () => getSummary({ from: from.toISOString(), to: to.toISOString() }),
     enabled: !!dateFrom && !!dateTo
   });
 
