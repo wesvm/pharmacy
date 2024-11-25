@@ -19,8 +19,8 @@ type Option = {
 }
 
 type DateFilters = {
-  from?: Date;
-  to?: Date;
+  from?: Date | string;
+  to?: Date | string;
 }
 
 type Summary = {
