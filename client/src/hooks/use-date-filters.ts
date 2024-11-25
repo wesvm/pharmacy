@@ -15,10 +15,10 @@ export function useDateFilters() {
 
   const setFilters = useCallback((filters: DateFilters) => {
     setSearchParams((params) => {
-      if (filters.from) {
+      if (filters.from instanceof Date) {
         params.set('from', filters.from.toISOString());
       }
-      if (filters.to) {
+      if (filters.to instanceof Date) {
         params.set('to', filters.to.toISOString());
       }
 

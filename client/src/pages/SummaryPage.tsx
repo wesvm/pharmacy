@@ -12,10 +12,12 @@ import { DataChartLoading } from "@/components/pages/summary/data-chart-loading"
 
 export default function SummaryPage() {
   const { from, to } = useDateFilters();
+  const dateFrom = from.toISOString().split('T')[0];
+  const dateTo = to.toISOString().split('T')[0];
   const { status, data } = useQuery({
-    queryKey: ['summary', from.toString(), to.toString],
-    queryFn: () => getSummary(from.toISOString(), to.toISOString()),
-    enabled: !!from && !!to
+    queryKey: ['summary', dateFrom, dateTo],
+    queryFn: () => getSummary({ from: dateFrom, to: dateTo }),
+    enabled: !!dateFrom && !!dateTo
   });
 
   return (

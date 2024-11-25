@@ -1,7 +1,7 @@
 import { apiRequest } from "@/api/api-service";
 
-export const getSummary = async (from: Date | string, to: Date | string): Promise<Summary> => {
-  return apiRequest<Summary>(`/summary?from=${from}&to=${to}`, {
+export const getSummary = async (filters: DateFilters): Promise<Summary> => {
+  return apiRequest<Summary>(`/summary?from=${filters.from}&to=${filters.to}`, {
     method: 'GET',
   });
 };
