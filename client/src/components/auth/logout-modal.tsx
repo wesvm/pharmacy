@@ -27,7 +27,10 @@ export const LogoutModal = ({ open, onOpenChange, logout }: Props) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={logout}>Salir</AlertDialogAction>
+          <AlertDialogAction onClick={() => {
+            logout()
+            window.location.replace('/login');
+          }}>Salir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

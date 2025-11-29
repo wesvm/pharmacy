@@ -8,7 +8,6 @@ import { SimpleCard } from '@/components/simple-card'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { productFiltersSchema } from '@/hooks/use-product-filters'
 
-
 export const Route = createFileRoute('/_layout/sales/new')({
   component: RouteComponent,
   validateSearch: productFiltersSchema,

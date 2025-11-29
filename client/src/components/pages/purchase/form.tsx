@@ -1,32 +1,26 @@
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { purchaseFormSchema, PurchaseFormSchema } from "@/api/purchase/validations"
-import { LoaderButton } from "@/components/loader-button"
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form"
-import { usePurchaseCartStore } from "@/store/cart-store"
-import { Button } from "@/components/ui/button"
-import { IdCard, Mail, Minus, Plus, Trash2, User } from "lucide-react"
-import { formatter } from "@/lib/utils"
-import { toast } from "sonner"
-import { useEffect, useState } from "react"
-import { useAuth } from "@/setup/auth-context"
-import { createPurchase } from "@/api/purchase/actions"
-import { useQueryClient } from "@tanstack/react-query"
-import { Input } from "@/components/ui/input"
-import { ModalTicket } from "./modal-ticket"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { IdCard, Mail, Minus, Plus, Trash2, User } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { createPurchase } from '@/api/purchase/actions'
+import { type PurchaseFormSchema, purchaseFormSchema } from '@/api/purchase/validations'
+import { LoaderButton } from '@/components/loader-button'
+import { Button } from '@/components/ui/button'
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import useAuth from '@/hooks/use-auth'
+import { formatter } from '@/lib/utils'
+import { usePurchaseCartStore } from '@/store/cart-store'
+import { ModalTicket } from './modal-ticket'
 
 export const PaymentSection = () => {
-  const queryClient = useQueryClient();
-  const [open, setOpen] = useState<boolean>(false);
-  const [purchaseId, setPurchaseId] = useState<number | null>(null);
-  const { user } = useAuth();
-  const { items, removeItem, updateQuantity, removeAll } = usePurchaseCartStore();
+  const queryClient = useQueryClient()
+  const [open, setOpen] = useState<boolean>(false)
+  const [purchaseId, setPurchaseId] = useState<number | null>(null)
+  const { user } = useAuth()
+  const { items, removeItem, updateQuantity, removeAll } = usePurchaseCartStore()
   const form = useForm<PurchaseFormSchema>({
     resolver: zodResolver(purchaseFormSchema),
     defaultValues: {
@@ -35,15 +29,17 @@ export const PaymentSection = () => {
       userId: user?.id,
     },
   })
-  const total = items.reduce((acc, item) => acc + Number(item.total), 0);
+  const total = items.reduce((acc, item) => acc + Number(item.total), 0)
 
   useEffect(() => {
-    form.setValue("purchaseItems", items.map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity,
-    })))
-    if (items.length > 0) form.trigger("purchaseItems");
-
+    form.setValue(
+      'purchaseItems',
+      items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }))
+    )
+    if (items.length > 0) form.trigger('purchaseItems')
   }, [items, form])
 
   const onSubmit = async (values: PurchaseFormSchema) => {
@@ -55,19 +51,20 @@ export const PaymentSection = () => {
         return
       }
 
-      setPurchaseId(createdPurchase.id);
-      setOpen(true);
+      setPurchaseId(createdPurchase.id)
+      setOpen(true)
 
       queryClient.invalidateQueries({
         predicate: (query) =>
-          ['productsToSale', 'products', 'productsToPurchase', 'purchases', 'summary']
-            .includes(query.queryKey[0] as string),
-        refetchType: 'all'
-      });
+          ['productsToSale', 'products', 'productsToPurchase', 'purchases', 'summary'].includes(
+            query.queryKey[0] as string
+          ),
+        refetchType: 'all',
+      })
       form.reset()
       removeAll()
       toast.success(message)
-    } catch (error) {
+    } catch {
       toast.error('Algo ha ido mal, por favor inténtelo más tarde.')
     }
   }
@@ -99,7 +96,9 @@ export const PaymentSection = () => {
               <FormItem>
                 <FormLabel>Agrege los productos a comprar</FormLabel>
                 {items.length === 0 ? (
-                  <p className="text-gray-500 flex justify-center py-4">No hay productos en el carrito...</p>
+                  <p className="text-gray-500 flex justify-center py-4">
+                    No hay productos en el carrito...
+                  </p>
                 ) : (
                   <ul className="space-y-2">
                     {items.map((item, index) => (
@@ -111,7 +110,9 @@ export const PaymentSection = () => {
                           </div>
                           <div className="flex space-x-2">
                             <div className="flex items-center">
-                              <Button variant="ghost" size="icon"
+                              <Button
+                                variant="ghost"
+                                size="icon"
                                 type="button"
                                 onClick={() => updateQuantity(item.productId, item.quantity - 1)}
                                 disabled={item.quantity <= 1}
@@ -123,20 +124,24 @@ export const PaymentSection = () => {
                                   type="number"
                                   value={item.quantity || ''}
                                   onChange={(e) => {
-                                    const newQuantity = parseInt(e.target.value, 10);
-                                    updateQuantity(item.productId, newQuantity);
+                                    const newQuantity = parseInt(e.target.value, 10)
+                                    updateQuantity(item.productId, newQuantity)
                                   }}
                                   className="w-24"
                                 />
                               </span>
-                              <Button variant="ghost" size="icon"
+                              <Button
+                                variant="ghost"
+                                size="icon"
                                 type="button"
                                 onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                               >
                                 <Plus className="size-4" />
                               </Button>
                             </div>
-                            <Button variant="ghost" size="icon"
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               type="button"
                               onClick={() => removeItem(item.productId)}
                             >
@@ -155,9 +160,7 @@ export const PaymentSection = () => {
                 )}
                 {Array.isArray(form.formState.errors.purchaseItems) &&
                   form.formState.errors.purchaseItems.some((err) => err) ? (
-                  <p className="text-sm font-medium text-destructive">
-                    Verifica la compra.
-                  </p>
+                  <p className="text-sm font-medium text-destructive">Verifica la compra.</p>
                 ) : (
                   <FormMessage />
                 )}
@@ -178,13 +181,7 @@ export const PaymentSection = () => {
           />
         </form>
       </Form>
-      {purchaseId && (
-        <ModalTicket
-          purchaseId={purchaseId}
-          open={open}
-          onOpenChange={setOpen}
-        />
-      )}
+      {purchaseId && <ModalTicket purchaseId={purchaseId} open={open} onOpenChange={setOpen} />}
     </>
   )
 }
