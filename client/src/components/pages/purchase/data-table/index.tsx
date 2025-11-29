@@ -2,7 +2,7 @@ import {
   type ColumnDef,
 } from '@tanstack/react-table';
 import { DataTable } from '@/components/data-table/data-table';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { ModalTicket } from '../modal-ticket';
@@ -36,7 +36,7 @@ export function PurchasesTable({
           setOpen(true)
         }}
       >
-        <Link to='new'>
+        <Link to='/purchases/new'>
           <Button>
             Realizar compra
           </Button>

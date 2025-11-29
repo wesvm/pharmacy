@@ -1,14 +1,9 @@
-import { Link } from "react-router-dom";
-import { LayoutGrid, LogOut, User } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider
-} from "@/components/ui/tooltip";
+import { Link } from '@tanstack/react-router'
+import { LayoutGrid, LogOut, User } from 'lucide-react'
+import { useState } from 'react'
+import { LogoutModal } from '@/components/auth/logout-modal'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,14 +11,13 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/setup/auth-context";
-import { useState } from "react";
-import { LogoutModal } from "@/components/auth/logout-modal";
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import useAuth from '@/hooks/use-auth'
 
 export function UserNav() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth()
   const [open, setOpen] = useState(false)
 
   return (
@@ -33,10 +27,7 @@ export function UserNav() {
           <Tooltip delayDuration={100}>
             <TooltipTrigger asChild>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="relative h-8 w-8 rounded-full"
-                >
+                <Button variant="outline" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src="#" alt="Avatar" />
                     <AvatarFallback className="bg-transparent uppercase">
@@ -53,24 +44,20 @@ export function UserNav() {
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none capitalize">
-                {user?.name}
-              </p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {user?.email}
-              </p>
+              <p className="text-sm font-medium leading-none capitalize">{user?.name}</p>
+              <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem className="hover:cursor-pointer" asChild>
-              <Link to="" className="flex items-center">
+              <Link to="/" className="flex items-center">
                 <LayoutGrid className="w-4 h-4 mr-3 text-muted-foreground" />
                 Dashboard
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="hover:cursor-pointer" asChild>
-              <Link to="" className="flex items-center">
+              <Link to="/" className="flex items-center">
                 <User className="w-4 h-4 mr-3 text-muted-foreground" />
                 Cuenta
               </Link>
@@ -85,5 +72,5 @@ export function UserNav() {
       </DropdownMenu>
       <LogoutModal open={open} onOpenChange={setOpen} logout={logout} />
     </>
-  );
+  )
 }

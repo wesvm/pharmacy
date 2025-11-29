@@ -1,38 +1,44 @@
 import { subMonths } from 'date-fns';
 import { useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 
 export function useDateFilters() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const searchParams = useSearch({ strict: false });
+
   const defaultTo = new Date();
   const defaultFrom = subMonths(defaultTo, 1);
-  const from = searchParams.get('from')
-    ? new Date(searchParams.get('from') as string)
+
+  const from = searchParams.from
+    ? new Date(searchParams.from as string)
     : defaultFrom;
-  const to = searchParams.get('to')
-    ? new Date(searchParams.get('to') as string)
+  const to = searchParams.to
+    ? new Date(searchParams.to as string)
     : defaultTo;
 
   const setFilters = useCallback((filters: DateFilters) => {
-    setSearchParams((params) => {
-      if (filters.from instanceof Date) {
-        params.set('from', filters.from.toISOString());
-      }
-      if (filters.to instanceof Date) {
-        params.set('to', filters.to.toISOString());
-      }
+    const newParams: Record<string, string> = { ...searchParams };
 
-      return params;
+    if (filters.from instanceof Date) {
+      newParams.from = filters.from.toISOString();
+    }
+    if (filters.to instanceof Date) {
+      newParams.to = filters.to.toISOString();
+    }
+
+    navigate({
+      search: (prev) => ({ ...prev, ...newParams })
     });
-  }, []);
+  }, [navigate, searchParams]);
 
   const clearFilters = useCallback(() => {
-    setSearchParams((params) => {
-      params.delete('from');
-      params.delete('to');
-      return params;
+    navigate({
+      search: (prev) => {
+        const { from, to, ...rest } = prev as any;
+        return rest;
+      }
     });
-  }, [])
+  }, [navigate]);
 
   return {
     from,

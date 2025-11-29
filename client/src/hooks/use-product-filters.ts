@@ -1,38 +1,52 @@
-import { useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useCallback } from 'react'
+import { z } from 'zod'
+
+export const productFiltersSchema = z.object({
+  search: z.string().optional(),
+  categoryId: z.number().optional(),
+})
+
+export type ProductFilters = z.infer<typeof productFiltersSchema>
 
 export function useProductFilters() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get('search') as ProductFilters['search'];
-  const categoryId = searchParams.get('categoryId')
-    ? parseInt(searchParams.get('categoryId') as string)
-    : undefined;
+  const navigate = useNavigate()
+  // Get current search params from the route
+  const searchParams = useSearch({ strict: false }) as ProductFilters
 
-  const setFilters = useCallback((filters: ProductFilters) => {
-    setSearchParams((params) => {
-      if (filters.search !== undefined) {
-        params.set('search', filters.search);
-      }
+  const setFilters = useCallback(
+    (filters: ProductFilters) => {
+      navigate({
+        search: (prev) => {
+          const updated = { ...prev }
 
-      if (filters.search === '') {
-        params.delete('search');
-      }
+          // Handle search param
+          if (filters.search !== undefined) {
+            if (filters.search === '') {
+              delete (updated as any).search
+            } else {
+              updated.search = filters.search
+            }
+          }
 
-      if (filters.categoryId) {
-        params.set('categoryId', filters.categoryId.toString());
-      }
+          if ('categoryId' in filters) {
+            if (filters.categoryId === undefined) {
+              delete (updated as any).categoryId // Eliminar el parámetro
+            } else {
+              updated.categoryId = filters.categoryId
+            }
+          }
 
-      if (filters.categoryId === undefined) {
-        params.delete('categoryId');
-      }
-
-      return params;
-    });
-  }, []);
+          return updated
+        },
+      })
+    },
+    [navigate]
+  )
 
   return {
-    search,
-    categoryId,
-    setFilters
-  };
+    search: searchParams.search,
+    categoryId: searchParams.categoryId,
+    setFilters,
+  }
 }

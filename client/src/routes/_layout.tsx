@@ -1,16 +1,26 @@
-import {
-  Outlet
-} from "react-router-dom"
-import { ModeToggle } from "@/components/mode-toggle"
-import { AppSidebar } from "@/components/sidebar/app-sidebar"
-import { SidebarToggle } from "@/components/sidebar/sidebar-toggle"
-import { UserNav } from "@/components/sidebar/user-nav"
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { ModeToggle } from '@/components/mode-toggle'
+import { AppSidebar } from '@/components/sidebar/app-sidebar'
+import { SidebarToggle } from '@/components/sidebar/sidebar-toggle'
+import { UserNav } from '@/components/sidebar/user-nav'
 import {
   SidebarInset,
   SidebarProvider
 } from "@/components/ui/sidebar"
+import { isAuthenticated } from '@/hooks/use-auth'
 
-const Layout = () => {
+export const Route = createFileRoute('/_layout')({
+  component: Layout,
+  beforeLoad: async () => {
+    if (!isAuthenticated()) {
+      throw redirect({
+        to: '/login'
+      })
+    }
+  }
+})
+
+function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -30,4 +40,5 @@ const Layout = () => {
   )
 }
 
-export default Layout
+
+
