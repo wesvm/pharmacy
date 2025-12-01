@@ -1,3 +1,4 @@
+import { Product } from "@/types/store";
 import { toast } from "sonner";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
