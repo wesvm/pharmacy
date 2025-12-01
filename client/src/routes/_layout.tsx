@@ -1,12 +1,10 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import ChatWidget from '@/components/chat-widget'
 import { ModeToggle } from '@/components/mode-toggle'
 import { AppSidebar } from '@/components/sidebar/app-sidebar'
 import { SidebarToggle } from '@/components/sidebar/sidebar-toggle'
 import { UserNav } from '@/components/sidebar/user-nav'
-import {
-  SidebarInset,
-  SidebarProvider
-} from "@/components/ui/sidebar"
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { isAuthenticated } from '@/hooks/use-auth'
 
 export const Route = createFileRoute('/_layout')({
@@ -14,10 +12,10 @@ export const Route = createFileRoute('/_layout')({
   beforeLoad: async () => {
     if (!isAuthenticated()) {
       throw redirect({
-        to: '/login'
+        to: '/login',
       })
     }
-  }
+  },
 })
 
 function Layout() {
@@ -36,9 +34,7 @@ function Layout() {
           <Outlet />
         </div>
       </SidebarInset>
+      <ChatWidget />
     </SidebarProvider>
   )
 }
-
-
-
