@@ -4,7 +4,7 @@ import { tokenService } from '@/api/token-service'
 import { useAuthStore } from '@/store/auth-store'
 
 export const isAuthenticated = (): boolean => {
-  return !!tokenService.getToken() || !!useAuthStore.getState().user
+  return !!tokenService.getToken() && !!useAuthStore.getState().user
 }
 
 const useAuth = () => {
