@@ -17,13 +17,13 @@ export function useProductFilters() {
   const setFilters = useCallback(
     (filters: ProductFilters) => {
       navigate({
-        search: (prev) => {
+        search: ((prev: any) => {
           const updated = { ...prev }
 
           // Handle search param
           if (filters.search !== undefined) {
             if (filters.search === '') {
-              delete (updated as any).search
+              delete updated.search
             } else {
               updated.search = filters.search
             }
@@ -31,14 +31,14 @@ export function useProductFilters() {
 
           if ('categoryId' in filters) {
             if (filters.categoryId === undefined) {
-              delete (updated as any).categoryId // Eliminar el parámetro
+              delete updated.categoryId // Eliminar el parámetro
             } else {
               updated.categoryId = filters.categoryId
             }
           }
 
           return updated
-        },
+        }) as any,
       })
     },
     [navigate]
