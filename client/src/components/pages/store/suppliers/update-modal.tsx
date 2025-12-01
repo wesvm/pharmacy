@@ -1,22 +1,19 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { updateSupplier } from "@/api/supplier/actions";
-import { supplierFormSchema, SupplierFormSchema } from "@/api/supplier/validations";
-import { SupplierForm } from "@/components/pages/store/suppliers/form";
-import {
-  Dialog,
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button";
-import { LoaderButton } from "@/components/loader-button";
-import { useEffect } from "react";
-import { Modal } from "@/components/modal";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { updateSupplier } from '@/api/supplier/actions'
+import { type SupplierFormSchema, supplierFormSchema } from '@/api/supplier/validations'
+import { LoaderButton } from '@/components/loader-button'
+import { Modal } from '@/components/modal'
+import { SupplierForm } from '@/components/pages/store/suppliers/form'
+import { Button } from '@/components/ui/button'
+import { type Dialog, DialogClose, DialogFooter } from '@/components/ui/dialog'
+import type { Supplier } from '@/types/store'
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  supplier: Supplier | null;
+  supplier: Supplier | null
 }
 
 export const UpdateSupplierModal = ({ supplier, ...props }: Props) => {
@@ -26,7 +23,7 @@ export const UpdateSupplierModal = ({ supplier, ...props }: Props) => {
     defaultValues: {
       name: supplier?.name,
       contactInfo: supplier?.contactInfo ?? '',
-    }
+    },
   })
 
   useEffect(() => {
@@ -47,11 +44,11 @@ export const UpdateSupplierModal = ({ supplier, ...props }: Props) => {
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
       form.reset()
       toast.success(message)
       props.onOpenChange?.(false)
-    } catch (error) {
+    } catch (_error) {
       toast.error('Algo ha ido mal, por favor inténtelo más tarde.')
     }
   }
@@ -64,10 +61,7 @@ export const UpdateSupplierModal = ({ supplier, ...props }: Props) => {
       className="max-w-md"
       {...props}
     >
-      <SupplierForm
-        form={form}
-        onSubmit={onSubmit}
-      >
+      <SupplierForm form={form} onSubmit={onSubmit}>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">

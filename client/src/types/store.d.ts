@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 type Supplier = {
   id: number;
   name: string;
@@ -24,11 +26,6 @@ type Product = {
   supplier: string;
   isArchived: boolean;
 };
-
-type ProductFilters = {
-  search?: string;
-  categoryId?: number;
-}
 
 type Sale = {
   id: number;

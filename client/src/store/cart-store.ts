@@ -1,20 +1,21 @@
-import { toast } from "sonner";
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { toast } from 'sonner'
+import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
+import type { Product } from '@/types/store'
 
 interface CartItem {
-  productId: number;
-  product: Product;
-  quantity: number;
-  total: number;
+  productId: number
+  product: Product
+  quantity: number
+  total: number
 }
 
 export interface CartStore {
-  items: CartItem[];
-  addItem: (data: Product) => void;
-  removeItem: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
-  removeAll: () => void;
+  items: CartItem[]
+  addItem: (data: Product) => void
+  removeItem: (id: number) => void
+  updateQuantity: (id: number, quantity: number) => void
+  removeAll: () => void
 }
 
 export const useCartStore = create(
@@ -22,12 +23,10 @@ export const useCartStore = create(
     (set, get) => ({
       items: [],
       addItem: (data: Product) => {
-        const currentItems = get().items;
-        const existingItem = currentItems.find(
-          (item) => item.productId === data.id
-        );
+        const currentItems = get().items
+        const existingItem = currentItems.find((item) => item.productId === data.id)
         if (existingItem) {
-          return toast.info("El producto ya está en la compra.");
+          return toast.info('El producto ya está en la compra.')
         }
         set({
           items: [
@@ -39,11 +38,11 @@ export const useCartStore = create(
               total: data.salePrice,
             },
           ],
-        });
+        })
       },
       updateQuantity: (id: number, quantity: number) => {
-        if (quantity < 1) return;
-        const currentItems = get().items;
+        if (quantity < 1) return
+        const currentItems = get().items
         set({
           items: currentItems.map((item) =>
             item.productId === id
@@ -54,32 +53,30 @@ export const useCartStore = create(
               }
               : item
           ),
-        });
+        })
       },
       removeItem: (id: number) => {
-        const currentItems = get().items;
-        set({ items: currentItems.filter((item) => item.productId !== id) });
+        const currentItems = get().items
+        set({ items: currentItems.filter((item) => item.productId !== id) })
       },
       removeAll: () => set({ items: [] }),
     }),
     {
-      name: "cart-store",
+      name: 'cart-store',
       storage: createJSONStorage(() => sessionStorage),
     }
   )
-);
+)
 
 export const usePurchaseCartStore = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
       addItem: (data: Product) => {
-        const currentItems = get().items;
-        const existingItem = currentItems.find(
-          (item) => item.productId === data.id
-        );
+        const currentItems = get().items
+        const existingItem = currentItems.find((item) => item.productId === data.id)
         if (existingItem) {
-          return toast.info("El producto ya está en la compra.");
+          return toast.info('El producto ya está en la compra.')
         }
         set({
           items: [
@@ -91,11 +88,11 @@ export const usePurchaseCartStore = create(
               total: data.purchasePrice,
             },
           ],
-        });
+        })
       },
       updateQuantity: (id: number, quantity: number) => {
-        const currentItems = get().items;
-        const itemQuantity = isNaN(quantity) ? 0 : quantity;
+        const currentItems = get().items
+        const itemQuantity = Number.isNaN(quantity) ? 0 : quantity
         set({
           items: currentItems.map((item) =>
             item.productId === id
@@ -106,17 +103,17 @@ export const usePurchaseCartStore = create(
               }
               : item
           ),
-        });
+        })
       },
       removeItem: (id: number) => {
-        const currentItems = get().items;
-        set({ items: currentItems.filter((item) => item.productId !== id) });
+        const currentItems = get().items
+        set({ items: currentItems.filter((item) => item.productId !== id) })
       },
       removeAll: () => set({ items: [] }),
     }),
     {
-      name: "purchase-cart-store",
+      name: 'purchase-cart-store',
       storage: createJSONStorage(() => sessionStorage),
     }
   )
-);
+)

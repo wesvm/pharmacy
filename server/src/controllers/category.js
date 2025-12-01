@@ -3,15 +3,28 @@ import prisma from "../lib/prisma.js";
 
 class CategoryController {
   async getAll(_req, res) {
-    const categories = await prisma.category.findMany();
-    res.status(200).json({ categories });
+    try {
+      const categories = await prisma.category.findMany({
+        orderBy: { name: 'asc' }
+      });
+
+      return res.status(200).json({ categories });
+    } catch (error) {
+      next(error);
+    }
   }
 
   async getById(req, res, next) {
-    const { id } = req.params;
+
     try {
+      const id = parseInt(req.params.id, 10);
+
+      if (isNaN(id)) {
+        return;
+      }
+
       const category = await prisma.category.findUnique({
-        where: { id: parseInt(id) }
+        where: { id }
       });
 
       if (!category) {
@@ -24,9 +37,8 @@ class CategoryController {
     }
   }
   async create(req, res, next) {
-    const { name, description } = req.body;
-
     try {
+      const { name, description } = req.body;
       const category = await prisma.category.create({
         data: {
           name: name,

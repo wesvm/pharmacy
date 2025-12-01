@@ -1,17 +1,13 @@
-import { LucideIcon } from "lucide-react"
-import {
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-} from "@/components/ui/sidebar"
-import { NavMain } from "./nav-main.tsx"
+import type { LucideIcon } from 'lucide-react'
+import { NavMain } from '@/components/sidebar/nav-main'
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel } from '@/components/ui/sidebar'
 
 export function NavSecondary({
   label,
   items,
   ...props
 }: {
-  label: string,
+  label: string
   items: {
     title: string
     url: string

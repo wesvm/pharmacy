@@ -1,14 +1,8 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { useAuth } from "@/setup/auth-context"
-import {
-  IdCard,
-  LogOut,
-  Package,
-  ShoppingBag,
-  ShoppingCart,
-  Users
-} from "lucide-react"
+import { Link } from '@tanstack/react-router'
+import { IdCard, LogOut, Package, ShoppingBag, ShoppingCart, Users } from 'lucide-react'
+import { useState } from 'react'
+import logo from '@/assets/logo.jpg'
+import { LogoutModal } from '@/components/auth/logout-modal.tsx'
 import {
   Sidebar,
   SidebarContent,
@@ -19,14 +13,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-} from "@/components/ui/sidebar"
-import { LogoutModal } from "@/components/auth/logout-modal.tsx"
-import { NavMain } from "./nav-main.tsx"
-import { NavSecondary } from "./nav-secondary"
-import logo from "@/assets/logo.jpg"
+} from '@/components/ui/sidebar'
+import useAuth from '@/hooks/use-auth'
+import { NavMain } from './nav-main.tsx'
+import { NavSecondary } from './nav-secondary'
 
 const items = {
-  'main': [
+  main: [
     {
       title: 'Usuarios',
       url: '/users',
@@ -35,10 +28,10 @@ const items = {
     {
       title: 'Roles',
       url: '/roles',
-      icon: IdCard
+      icon: IdCard,
     },
   ],
-  'store': [
+  store: [
     {
       title: 'Almacén',
       url: '#',
@@ -55,8 +48,8 @@ const items = {
         {
           title: 'Proveedores',
           url: '/store/suppliers',
-        }
-      ]
+        },
+      ],
     },
     {
       title: 'Ventas',
@@ -65,7 +58,7 @@ const items = {
       subItems: [
         {
           title: 'Todas las ventas',
-          url: '/sales'
+          url: '/sales',
         },
         {
           title: 'Nueva venta',
@@ -75,18 +68,18 @@ const items = {
           title: 'Entregas',
           url: '/sales/delivery',
         },
-      ]
+      ],
     },
     {
       title: 'Compras',
       url: '/purchases',
       icon: ShoppingBag,
-    }
+    },
   ],
 }
 
 export function AppSidebar() {
-  const { logout, user } = useAuth();
+  const { logout, user } = useAuth()
   const [open, setOpen] = useState(false)
 
   return (
@@ -94,8 +87,8 @@ export function AppSidebar() {
       <SidebarHeader className="h-16 border-b border-sidebar-border">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size='lg' asChild>
-              <Link to='/' className="justify-center">
+            <SidebarMenuButton size="lg" asChild>
+              <Link to="/" className="justify-center">
                 <img
                   src={logo}
                   alt="pharmacy logo"

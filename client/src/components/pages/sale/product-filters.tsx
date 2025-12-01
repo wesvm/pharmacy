@@ -1,23 +1,19 @@
-import { getCategories } from "@/api/category/queries";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useProductFilters } from "@/hooks/use-product-filters";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query'
+import { getCategories } from '@/api/category/queries'
+import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useProductFilters } from '@/hooks/use-product-filters'
 
 export const ProductFilters = () => {
-  const { categoryId, search, setFilters } = useProductFilters();
+  const { categoryId, search, setFilters } = useProductFilters()
   const { status, data } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => getCategories()
-  });
+    queryFn: () => getCategories(),
+  })
 
-  const handleOnClick = (id: number) => {
-    if (categoryId === id) {
-      setFilters({ categoryId: undefined });
-    } else {
-      setFilters({ categoryId: id });
-    }
-  };
+  const handleCategoryClick = (id: number) => {
+    setFilters({ categoryId: categoryId === id ? undefined : id })
+  }
 
   return (
     <>
@@ -29,16 +25,22 @@ export const ProductFilters = () => {
         type="search"
       />
 
-      {status === 'success' && (
+      {status === 'success' && data.categories.length > 0 && (
         <ul className="flex items-center gap-x-2 overflow-x-auto pb-1">
           {data.categories.map((category) => (
-            <li key={category.id}
-              onClick={() => handleOnClick(category.id)}
-              className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer border hover:shadow-sm transition border-sky-800/10
+            <li key={category.id}>
+              <button
+                type='button'
+                onClick={() => handleCategoryClick(category.id)}
+                className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer border hover:shadow-sm transition border-sky-800/10
                 ${categoryId === category.id
-                  ? ' bg-sky-500/10 text-sky-800 dark:bg-sky-700/50 dark:text-white' : ''}`}
-            >
-              <span className="truncate text-sm font-semibold">{category.name}</span>
+                    ? ' bg-sky-500/10 text-sky-800 dark:bg-sky-700/50 dark:text-white'
+                    : ''
+                  }`}
+              >
+                <span className="truncate text-sm font-semibold">{category.name}</span>
+              </button>
+
             </li>
           ))}
         </ul>

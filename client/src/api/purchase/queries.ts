@@ -1,7 +1,8 @@
 import { apiRequest } from "@/api/api-service";
+import type { Purchase, PurchaseDetails } from "@/types/store";
 
 export const getPurchases = async (): Promise<{ purchases: Purchase[] }> => {
-  return apiRequest<{ purchases: Purchase[] }>('/purchases', {
+  return apiRequest<{ purchases: PurchaseDetails[] }>('/purchases', {
     method: 'GET',
   });
 };

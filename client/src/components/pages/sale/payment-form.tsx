@@ -1,34 +1,34 @@
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { saleFormSchema, SaleFormSchema } from "@/api/sale/validations"
-import { LoaderButton } from "@/components/loader-button"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { IdCard, MapPin, Minus, Plus, Trash2, User } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { createSale } from '@/api/sale/actions'
+import { type SaleFormSchema, saleFormSchema } from '@/api/sale/validations'
+import { LoaderButton } from '@/components/loader-button'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from "@/components/ui/form"
-import { useCartStore } from "@/store/cart-store"
-import { Button } from "@/components/ui/button"
-import { IdCard, MapPin, Minus, Plus, Trash2, User } from "lucide-react"
-import { formatter } from "@/lib/utils"
-import { Input } from "@/components/ui/input"
-import { Switch } from "@/components/ui/switch"
-import { toast } from "sonner"
-import { useEffect, useState } from "react"
-import { useAuth } from "@/setup/auth-context"
-import { createSale } from "@/api/sale/actions"
-import { useQueryClient } from "@tanstack/react-query"
-import { ModalTicket } from "./modal-ticket"
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
+import useAuth from '@/hooks/use-auth'
+import { formatter } from '@/lib/utils'
+import { useCartStore } from '@/store/cart-store'
+import { ModalTicket } from './modal-ticket'
 
 export const PaymentSection = () => {
-  const queryClient = useQueryClient();
-  const [open, setOpen] = useState<boolean>(false);
-  const [saleId, setSaleId] = useState<number | null>(null);
-  const { user } = useAuth();
-  const { items, removeItem, updateQuantity, removeAll } = useCartStore();
+  const queryClient = useQueryClient()
+  const [open, setOpen] = useState<boolean>(false)
+  const [saleId, setSaleId] = useState<number | null>(null)
+  const { user } = useAuth()
+  const { items, removeItem, updateQuantity, removeAll } = useCartStore()
   const form = useForm<SaleFormSchema>({
     resolver: zodResolver(saleFormSchema),
     defaultValues: {
@@ -38,23 +38,26 @@ export const PaymentSection = () => {
       delivery: false,
       saleItems: [],
       total: 0,
-      userId: user?.id
+      userId: user?.id,
     },
   })
-  const subtotal = items.reduce((acc, item) => acc + Number(item.total), 0);
-  const deliveryFee = form.getValues('delivery') ? 5.00 : 0;
+  const subtotal = items.reduce((acc, item) => acc + Number(item.total), 0)
+  const deliveryFee = form.getValues('delivery') ? 5.0 : 0
 
   useEffect(() => {
-    form.setValue("saleItems", items.map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity,
-    })))
-    if (items.length > 0) form.trigger("saleItems");
+    form.setValue(
+      'saleItems',
+      items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }))
+    )
+    if (items.length > 0) form.trigger('saleItems')
 
-    form.setValue("total", subtotal + deliveryFee)
+    form.setValue('total', subtotal + deliveryFee)
     if (!form.getValues('delivery')) {
-      form.setValue("address", '')
-      form.trigger("address");
+      form.setValue('address', '')
+      form.trigger('address')
     }
   }, [items, deliveryFee])
 
@@ -67,19 +70,20 @@ export const PaymentSection = () => {
         return
       }
 
-      setSaleId(createdSale.id);
-      setOpen(true);
+      setSaleId(createdSale.id)
+      setOpen(true)
 
       queryClient.invalidateQueries({
         predicate: (query) =>
-          ['productsToSale', 'products', 'sales', 'deliveries', 'summary']
-            .includes(query.queryKey[0] as string),
-        refetchType: 'all'
-      });
+          ['productsToSale', 'products', 'sales', 'deliveries', 'summary'].includes(
+            query.queryKey[0] as string
+          ),
+        refetchType: 'all',
+      })
       form.reset()
       removeAll()
       toast.success(message)
-    } catch (error) {
+    } catch {
       toast.error('Algo ha ido mal, por favor inténtelo más tarde.')
     }
   }
@@ -93,9 +97,11 @@ export const PaymentSection = () => {
             control={form.control}
             name="customerName"
             render={({ field }) => (
-              <FormItem >
+              <FormItem>
                 <div className="flex items-center space-x-2">
-                  <FormLabel><User className="size-4 " /></FormLabel>
+                  <FormLabel>
+                    <User className="size-4 " />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Marck Zuckerberg"
@@ -135,7 +141,9 @@ export const PaymentSection = () => {
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center space-x-2">
-                  <FormLabel><MapPin className="size-4" /></FormLabel>
+                  <FormLabel>
+                    <MapPin className="size-4" />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Avenida las fresas"
@@ -175,11 +183,14 @@ export const PaymentSection = () => {
               <FormItem>
                 <FormLabel>Agrege los productos</FormLabel>
                 {items.length === 0 ? (
-                  <p className="text-gray-500 flex justify-center py-4">No hay productos en el carrito...</p>
+                  <p className="text-gray-500 flex justify-center py-4">
+                    No hay productos en el carrito...
+                  </p>
                 ) : (
                   <ul className="space-y-2">
                     {items.map((item) => (
-                      <li key={item.productId}
+                      <li
+                        key={item.productId}
                         className="flex justify-between items-center border rounded-md p-2 bg-gray-50 dark:bg-gray-700"
                       >
                         <div>
@@ -188,7 +199,9 @@ export const PaymentSection = () => {
                         </div>
                         <div className="flex space-x-2">
                           <div className="flex items-center">
-                            <Button variant="ghost" size="icon"
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               type="button"
                               onClick={() => updateQuantity(item.productId, item.quantity - 1)}
                               disabled={item.quantity <= 1}
@@ -196,7 +209,9 @@ export const PaymentSection = () => {
                               <Minus className="size-4" />
                             </Button>
                             <span className="px-2">{item.quantity}</span>
-                            <Button variant="ghost" size="icon"
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               type="button"
                               onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                               disabled={item.quantity >= item.product.stockQuantity}
@@ -204,7 +219,9 @@ export const PaymentSection = () => {
                               <Plus className="size-4" />
                             </Button>
                           </div>
-                          <Button variant="ghost" size="icon"
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             type="button"
                             onClick={() => removeItem(item.productId)}
                           >
@@ -241,13 +258,7 @@ export const PaymentSection = () => {
           />
         </form>
       </Form>
-      {saleId && (
-        <ModalTicket
-          saleId={saleId}
-          open={open}
-          onOpenChange={setOpen}
-        />
-      )}
+      {saleId && <ModalTicket saleId={saleId} open={open} onOpenChange={setOpen} />}
     </>
   )
 }

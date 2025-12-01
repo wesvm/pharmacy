@@ -11,6 +11,7 @@ import productRoutes from "./product.js";
 import saleRoutes from "./sale.js";
 import deliveryRoutes from "./delivery.js";
 import purchaseRoutes from "./purchase.js";
+import chatRoutes from "./chat.js";
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use("/sales", auth, saleRoutes);
 router.use("/deliveries", auth, deliveryRoutes);
 router.use("/purchases", auth, purchaseRoutes);
 router.use("/summary", auth, summaryController.get)
+router.use("/chat", auth, chatRoutes);
 
 export default router;

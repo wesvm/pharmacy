@@ -1,25 +1,22 @@
-import { formatter } from "@/lib/utils";
+import { CalendarDays, Receipt, User } from 'lucide-react'
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
-} from "@/components/ui/card"
-import {
-  CalendarDays,
-  Receipt,
-  User
-} from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+  CardTitle,
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { formatter } from '@/lib/utils'
+import type { PurchaseDetails } from '@/types/store'
 
 export const PurchaseTicket = ({ purchase }: { purchase: PurchaseDetails }) => {
   return (
     <Card className="max-w-xs shadow-lg w-full" id="purchase-ticket">
       <CardHeader className="text-center border-b mb-4">
         <CardTitle className="text-2xl font-bold">Ticket de compra</CardTitle>
-        <CardDescription></CardDescription>
+        <CardDescription />
       </CardHeader>
       <CardContent>
         <div className="flex justify-between items-center">
@@ -50,7 +47,9 @@ export const PurchaseTicket = ({ purchase }: { purchase: PurchaseDetails }) => {
             {purchase.purchaseItems.map((item) => (
               <li key={item.id} className="text-sm">
                 <div className="flex justify-between">
-                  <span>{item.quantity}x {item.product.name}</span>
+                  <span>
+                    {item.quantity}x {item.product.name}
+                  </span>
                   <span>{formatter.format(item.price)}</span>
                 </div>
                 <span className="text-gray-500">

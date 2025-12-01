@@ -1,47 +1,37 @@
-import {
-  type ColumnDef,
-} from '@tanstack/react-table';
-import { DataTable } from '@/components/data-table/data-table';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { ModalTicket } from '../modal-ticket';
+import { Link } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import { useState } from 'react'
+import { DataTable } from '@/components/data-table/data-table'
+import { Button } from '@/components/ui/button'
+import type { Purchase } from '@/types/store'
+import { ModalTicket } from '../modal-ticket'
 
 interface Props {
-  columns: ColumnDef<Purchase>[];
-  data: Purchase[];
+  columns: ColumnDef<Purchase>[]
+  data: Purchase[]
 }
 
-export function PurchasesTable({
-  columns,
-  data,
-}: Props) {
-  const [open, setOpen] = useState<boolean>(false);
+export function PurchasesTable({ columns, data }: Props) {
+  const [open, setOpen] = useState<boolean>(false)
   const [selectedPurchase, setSelectedPurchase] = useState<Purchase | null>(null)
 
   return (
     <>
       {selectedPurchase && (
-        <ModalTicket
-          purchaseId={selectedPurchase.id}
-          open={open}
-          onOpenChange={setOpen}
-        />
+        <ModalTicket purchaseId={selectedPurchase.id} open={open} onOpenChange={setOpen} />
       )}
       <DataTable
         columns={columns}
         data={data}
         onRowSelect={(row) => {
-          setSelectedPurchase(row);
+          setSelectedPurchase(row)
           setOpen(true)
         }}
       >
-        <Link to='new'>
-          <Button>
-            Realizar compra
-          </Button>
+        <Link to="/purchases/new">
+          <Button>Realizar compra</Button>
         </Link>
       </DataTable>
     </>
-  );
+  )
 }
