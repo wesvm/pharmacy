@@ -31,11 +31,22 @@ export function useDateFilters() {
     [navigate, searchParams]
   )
 
+  const clearFilters = useCallback(() => {
+    navigate({
+      // cast reducer to any to satisfy @tanstack/router search reducer generics
+      search: ((prev: any) => {
+        const { ...rest } = prev as any;
+        return rest;
+      }) as any,
+    })
+  }, [navigate]);
+
   return {
     from,
     to,
     defaultFrom,
     defaultTo,
     setFilters,
+    clearFilters,
   }
 }
