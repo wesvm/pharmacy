@@ -1,23 +1,19 @@
-import { formatter } from "@/lib/utils";
+import { CalendarDays, IdCard, Receipt, User } from 'lucide-react'
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
-} from "@/components/ui/card"
-import {
-  CalendarDays,
-  IdCard,
-  Receipt,
-  User
-} from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+  CardTitle,
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { formatter } from '@/lib/utils'
+import type { SaleDetails } from '@/types/store'
 
 export const SaleTicket = ({ sale }: { sale: SaleDetails }) => {
-  const deliveryCost = sale.deliveryId ? 5.0 : 0;
-  const subtotal = sale.total - deliveryCost;
+  const deliveryCost = sale.deliveryId ? 5.0 : 0
+  const subtotal = sale.total - deliveryCost
 
   return (
     <Card className="max-w-xs shadow-lg w-full" id="sale-ticket">
@@ -61,10 +57,14 @@ export const SaleTicket = ({ sale }: { sale: SaleDetails }) => {
             {sale.saleItems.map((item) => (
               <li key={item.id} className="text-sm">
                 <div className="flex justify-between">
-                  <span>{item.quantity}x {item.product.name}</span>
+                  <span>
+                    {item.quantity}x {item.product.name}
+                  </span>
                   <span>{formatter.format(item.price)}</span>
                 </div>
-                <span className="text-gray-500">(Prec. Unit: {formatter.format(item.product.salePrice)})</span>
+                <span className="text-gray-500">
+                  (Prec. Unit: {formatter.format(item.product.salePrice)})
+                </span>
               </li>
             ))}
           </ul>

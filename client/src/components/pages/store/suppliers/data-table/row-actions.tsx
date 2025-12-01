@@ -1,23 +1,21 @@
-import { Button } from "@/components/ui/button";
+import { Ellipsis } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-
-import { Ellipsis } from "lucide-react";
-import { useSupplierRowActionStore } from ".";
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import type { Supplier } from '@/types/store'
+import { useSupplierRowActionStore } from '.'
 
 interface RowActionsProps {
-  row: Supplier;
+  row: Supplier
 }
 
-export function RowActions({
-  row
-}: RowActionsProps) {
-  const { setRowAction } = useSupplierRowActionStore();
+export function RowActions({ row }: RowActionsProps) {
+  const { setRowAction } = useSupplierRowActionStore()
 
   return (
     <DropdownMenu>
@@ -31,14 +29,8 @@ export function RowActions({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem
-          onSelect={() => setRowAction(row, "update")}
-        >
-          Editar
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setRowAction(row, "delete")}
-        >
+        <DropdownMenuItem onSelect={() => setRowAction(row, 'update')}>Editar</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setRowAction(row, 'delete')}>
           Eliminar
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

@@ -1,18 +1,15 @@
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { deleteCategory } from "@/api/category/actions";
-import {
-  Dialog,
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog"
-import { LoaderButton } from "@/components/loader-button"
-import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/modal";
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { deleteCategory } from '@/api/category/actions'
+import { LoaderButton } from '@/components/loader-button'
+import { Modal } from '@/components/modal'
+import { Button } from '@/components/ui/button'
+import { type Dialog, DialogClose, DialogFooter } from '@/components/ui/dialog'
+import type { Category } from '@/types/store'
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  category: Category | null;
+  category: Category | null
 }
 
 export const DeleteCategoryModal = ({ category, ...props }: Props) => {
@@ -20,7 +17,7 @@ export const DeleteCategoryModal = ({ category, ...props }: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const onSubmit = async (categoryId?: number) => {
-    if (!categoryId) return;
+    if (!categoryId) return
 
     try {
       setLoading(true)
@@ -31,10 +28,10 @@ export const DeleteCategoryModal = ({ category, ...props }: Props) => {
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
       toast.success(message)
       props.onOpenChange?.(false)
-    } catch (error) {
+    } catch (_error) {
       toast.error('Algo ha ido mal, por favor inténtelo más tarde.')
     } finally {
       setLoading(false)
@@ -48,9 +45,7 @@ export const DeleteCategoryModal = ({ category, ...props }: Props) => {
     >
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="outline">
-            Cancelar
-          </Button>
+          <Button variant="outline">Cancelar</Button>
         </DialogClose>
         <LoaderButton
           label="Eliminar"

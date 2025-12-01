@@ -1,18 +1,15 @@
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { deleteProduct } from "@/api/product/actions";
-import {
-  Dialog,
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog"
-import { LoaderButton } from "@/components/loader-button"
-import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/modal";
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { deleteProduct } from '@/api/product/actions'
+import { LoaderButton } from '@/components/loader-button'
+import { Modal } from '@/components/modal'
+import { Button } from '@/components/ui/button'
+import { type Dialog, DialogClose, DialogFooter } from '@/components/ui/dialog'
+import type { Product } from '@/types/store'
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  product: Product | null;
+  product: Product | null
 }
 
 export const DeleteProductModal = ({ product, ...props }: Props) => {
@@ -20,7 +17,7 @@ export const DeleteProductModal = ({ product, ...props }: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const onSubmit = async (productId?: number) => {
-    if (!productId) return;
+    if (!productId) return
 
     try {
       setLoading(true)
@@ -31,10 +28,10 @@ export const DeleteProductModal = ({ product, ...props }: Props) => {
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       toast.success(message)
       props.onOpenChange?.(false)
-    } catch (error) {
+    } catch (_0error) {
       toast.error('Algo ha ido mal, por favor inténtelo más tarde.')
     } finally {
       setLoading(false)
@@ -48,9 +45,7 @@ export const DeleteProductModal = ({ product, ...props }: Props) => {
     >
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="outline">
-            Cancelar
-          </Button>
+          <Button variant="outline">Cancelar</Button>
         </DialogClose>
         <LoaderButton
           label="Archivar"

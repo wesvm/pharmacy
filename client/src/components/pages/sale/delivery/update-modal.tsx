@@ -1,23 +1,20 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
-import { updateDelivery } from "@/api/delivery/actions";
-import { deliveryFormSchema, DeliveryFormSchema } from "@/api/delivery/validations";
-import { toast } from "sonner";
-import {
-  Dialog,
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button";
-import { LoaderButton } from "@/components/loader-button";
-import { Modal } from "@/components/modal";
-import { DeliveryForm } from "@/components/pages/sale/delivery/form";
-import { DeliveryStatus } from "@/lib/const";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { updateDelivery } from '@/api/delivery/actions'
+import { type DeliveryFormSchema, deliveryFormSchema } from '@/api/delivery/validations'
+import { LoaderButton } from '@/components/loader-button'
+import { Modal } from '@/components/modal'
+import { DeliveryForm } from '@/components/pages/sale/delivery/form'
+import { Button } from '@/components/ui/button'
+import { type Dialog, DialogClose, DialogFooter } from '@/components/ui/dialog'
+import type { DeliveryStatus } from '@/lib/const'
+import type { Delivery } from '@/types/store'
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  delivery: Delivery | null;
+  delivery: Delivery | null
 }
 
 export const UpdateDeliveryModal = ({ delivery, ...props }: Props) => {
@@ -28,7 +25,7 @@ export const UpdateDeliveryModal = ({ delivery, ...props }: Props) => {
       address: delivery?.address,
       deliveryDate: delivery?.deliveryDate ? new Date(delivery.deliveryDate) : undefined,
       status: delivery?.status as DeliveryStatus,
-    }
+    },
   })
 
   useEffect(() => {
@@ -50,12 +47,12 @@ export const UpdateDeliveryModal = ({ delivery, ...props }: Props) => {
         return
       }
 
-      queryClient.invalidateQueries({ queryKey: ['deliveries'] });
+      queryClient.invalidateQueries({ queryKey: ['deliveries'] })
 
       form.reset()
       toast.success(message)
       props.onOpenChange?.(false)
-    } catch (error) {
+    } catch (_error) {
       toast.error('Algo ha ido mal, por favor inténtelo más tarde.')
     }
   }
@@ -68,10 +65,7 @@ export const UpdateDeliveryModal = ({ delivery, ...props }: Props) => {
       className="max-w-md"
       {...props}
     >
-      <DeliveryForm
-        form={form}
-        onSubmit={onSubmit}
-      >
+      <DeliveryForm form={form} onSubmit={onSubmit}>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">

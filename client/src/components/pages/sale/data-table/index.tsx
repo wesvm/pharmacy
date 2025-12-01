@@ -1,41 +1,31 @@
-import {
-  type ColumnDef,
-} from '@tanstack/react-table';
-import { DataTable } from '@/components/data-table/data-table';
-import { useState } from 'react';
-import { ModalTicket } from '../modal-ticket';
+import type { ColumnDef } from '@tanstack/react-table'
+import { useState } from 'react'
+import { DataTable } from '@/components/data-table/data-table'
+import type { Sale } from '@/types/store'
+import { ModalTicket } from '../modal-ticket'
 
 interface Props {
-  columns: ColumnDef<Sale>[];
-  data: Sale[];
+  columns: ColumnDef<Sale>[]
+  data: Sale[]
 }
 
-export function SalesTable({
-  columns,
-  data,
-}: Props) {
-  const [open, setOpen] = useState<boolean>(false);
+export function SalesTable({ columns, data }: Props) {
+  const [open, setOpen] = useState<boolean>(false)
   const [selectedSale, setSelectedSale] = useState<Sale | null>(null)
 
   return (
     <>
-      {selectedSale && (
-        <ModalTicket
-          saleId={selectedSale.id}
-          open={open}
-          onOpenChange={setOpen}
-        />
-      )}
+      {selectedSale && <ModalTicket saleId={selectedSale.id} open={open} onOpenChange={setOpen} />}
       <DataTable
         columns={columns}
         data={data}
         onRowSelect={(row) => {
-          setSelectedSale(row);
+          setSelectedSale(row)
           setOpen(true)
         }}
       >
         {/* TODO: HERE */}
       </DataTable>
     </>
-  );
+  )
 }
